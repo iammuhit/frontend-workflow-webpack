@@ -40,6 +40,7 @@
         "mini-css-extract-plugin": "^2.1.0",
         "postcss-loader": "^6.1.1",
         "raw-loader": "^4.0.2",
+        "sass": "^1.35.2",
         "sass-loader": "^12.1.0",
         "save-remote-file-webpack-plugin": "^1.1.0",
         "style-loader": "^3.0.0",
