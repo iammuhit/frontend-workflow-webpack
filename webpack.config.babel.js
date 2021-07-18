@@ -32,7 +32,17 @@ const dirWalker = (dir) => {
     });
 
     return files;
-}
+};
+
+const fileLoaderOutputPath = (url, resourcePath, context) => {
+    let relativePath = path.relative(context, resourcePath).replace('src' + path.sep, '');
+
+    if(/fontello/.test(relativePath)) {
+        return relativePath.replace(path.join('assets/fontello', 'font'), path.join('assets/fonts', 'fontello'));
+    }
+
+    return relativePath;
+};
 
 const pages = dirWalker(path.join('src/views', 'pages'));
 const htmlWebpackPlugins = pages.map(
@@ -95,15 +105,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]?v=[contenthash]',
-                    outputPath: (url, resourcePath, context) => {
-                        let relativePath = path.relative(context, resourcePath).replace('src' + path.sep, '');
-
-                        if(/fontello/.test(relativePath)) {
-                            return relativePath.replace(path.join('assets/fontello', 'font'), path.join('assets/fonts', 'fontello'));
-                        }
-
-                        return relativePath;
-                    }
+                    outputPath: fileLoaderOutputPath
                 }
             },
             {
@@ -111,15 +113,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]?v=[contenthash]',
-                    outputPath: (url, resourcePath, context) => {
-                        let relativePath = path.relative(context, resourcePath).replace('src' + path.sep, '');
-
-                        if(/fontello/.test(relativePath)) {
-                            return relativePath.replace(path.join('assets/fontello', 'font'), path.join('assets/fonts', 'fontello'));
-                        }
-
-                        return relativePath;
-                    }
+                    outputPath: fileLoaderOutputPath
                 }
             },
             {
