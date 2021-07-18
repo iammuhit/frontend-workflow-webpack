@@ -32,6 +32,7 @@
         "copy-webpack-plugin": "^9.0.1",
         "css-loader": "^5.2.6",
         "dotenv": "^10.0.0",
+        "eslint": "^7.31.0",
         "exports-loader": "^3.0.0",
         "file-loader": "^6.2.0",
         "fontello-webpack-plugin": "^0.4.8",
