@@ -1,0 +1,13 @@
+@import "tailwindcss/base";
+@import "../fontello/css/fontello.css";
+
+@font-face {
+    font-family: "Ben Sen Handwriting";
+    src: url("../fonts/BenSenHandwriting.ttf") format("truetype");
+}
+
+#home {
+    color: red;
+    background: url('../img/home/banner.png');
+    box-shadow: none;
+}
