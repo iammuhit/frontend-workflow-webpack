@@ -34,10 +34,10 @@ const dirWalker = (dir) => {
     return files;
 }
 
-const views = dirWalker('./src/views/pages');
-const htmlWebpackPlugins = views.map(
+const pages = dirWalker(path.join('src/views', 'pages'));
+const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin({
-        filename: file.replace('src/views/pages/', '').replace('.twig', '.html'),
+        filename: file.replace(path.join('src/views', 'pages') + path.sep, '').replace('.twig', '.html'),
         template: path.resolve(__dirname, file),
         hash: false
     })
@@ -47,18 +47,18 @@ module.exports = {
     mode: ENV_MODE,
     entry: {
         app: {
-            import: './src/assets/js/app.js',
+            import: path.resolve('src/assets/js', 'app.js'),
             dependOn: 'shared'
         },
         custom: {
-            import: './src/assets/js/custom.js',
+            import: path.resolve('src/assets/js', 'custom.js'),
             dependOn: 'shared'
         },
         shared: 'lodash'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: './assets/js/[name].js',
+        filename: path.join('assets/js', '[name].js'),
         clean: { keep: /\.gitignore/ }
     },
     optimization: {
@@ -96,10 +96,10 @@ module.exports = {
                 options: {
                     name: '[name].[ext]?v=[contenthash]',
                     outputPath: (url, resourcePath, context) => {
-                        let relativePath = path.relative(context, resourcePath).replace('src/', '');
+                        let relativePath = path.relative(context, resourcePath).replace('src' + path.sep, '');
 
                         if(/fontello/.test(relativePath)) {
-                            return relativePath.replace('assets/fontello/font', 'assets/fonts/fontello');
+                            return relativePath.replace(path.join('assets/fontello', 'font'), path.join('assets/fonts', 'fontello'));
                         }
 
                         return relativePath;
@@ -112,10 +112,10 @@ module.exports = {
                 options: {
                     name: '[name].[ext]?v=[contenthash]',
                     outputPath: (url, resourcePath, context) => {
-                        let relativePath = path.relative(context, resourcePath).replace('src/', '');
+                        let relativePath = path.relative(context, resourcePath).replace('src' + path.sep, '');
 
                         if(/fontello/.test(relativePath)) {
-                            return relativePath.replace('assets/fontello/font', 'assets/fonts/fontello');
+                            return relativePath.replace(path.join('assets/fontello', 'font'), path.join('assets/fonts', 'fontello'));
                         }
 
                         return relativePath;
@@ -129,11 +129,11 @@ module.exports = {
                     { loader: 'twig-html-loader',
                         options: {
                             namespaces: {
-                                'layouts': path.join(process.cwd(), 'src', 'views', 'layouts'),
-                                'partials': path.join(process.cwd(), 'src', 'views', 'partials')
+                                'layouts': path.join(process.cwd(), 'src/views/layouts'),
+                                'partials': path.join(process.cwd(), 'src/views/partials')
                             },
                             data: (context) => {
-                                const data = path.join(__dirname, 'src', 'data', 'app.json');
+                                const data = path.join(__dirname, 'src/data/app.json');
                                 context.addDependency(data); // Force webpack to watch file
                                 return context.fs.readJsonSync(data, { throws: false }) || {};
                             }
@@ -153,12 +153,12 @@ module.exports = {
         // new FontelloWebpackPlugin({
         //     config: require('./fontello.config.json'),
         //     output: {
-        //         css: 'assets/css/[name].css',
-        //         font: 'assets/fonts/[name].[ext]'
+        //         css: path.join('assets/css', '[name].css'),
+        //         font: path.join('assets/fonts', '[name].[ext]')
         //     }
         // }),
         new MiniCssExtractPlugin({
-            filename: 'assets/css/[name].css',
+            filename: path.join('assets/css', '[name].css'),
             chunkFilename: '[id].css'
         })
     ].concat(htmlWebpackPlugins)
