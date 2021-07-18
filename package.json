@@ -1,5 +1,5 @@
 {
-    "name": "donate-blood",
+    "name": "frontend-workflow-webpack",
     "version": "1.0.0",
     "description": "A Blood Donate Website.",
     "main": "index.js",
