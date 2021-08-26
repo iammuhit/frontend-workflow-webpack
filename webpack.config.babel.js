@@ -5,11 +5,17 @@ import dotEnv from 'dotenv';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
+import WebpackDashboardPlugin from 'webpack-dashboard/plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
+import BrowserSyncWebpackPlugin from 'browser-sync-webpack-plugin';
 import SaveRemoteFileWebpackPlugin from 'save-remote-file-webpack-plugin';
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 // import FontelloWebpackPlugin from 'fontello-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const envConfig = dotEnv.config();
 
@@ -34,21 +40,14 @@ const dirWalker = (dir) => {
     return files;
 };
 
-const fileLoaderOutputPath = (url, resourcePath, context) => {
-    let relativePath = path.relative(context, resourcePath).replace('src' + path.sep, '');
-
-    if(/fontello/.test(relativePath)) {
-        return relativePath.replace(path.join('assets/fontello', 'font'), path.join('assets/fonts', 'fontello'));
-    }
-
-    return relativePath;
-};
-
 const pages = dirWalker(path.join('src/views', 'pages'));
 const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin({
-        filename: file.replace(path.join('src/views', 'pages') + path.sep, '').replace('.twig', '.html'),
+        filename: file.replace(/\\/g, '/').replace('src/views/pages/', '').replace('.twig', '.html'),
         template: path.resolve(__dirname, file),
+        inject: false,
+        minify: false,
+        cache: true,
         hash: false
     })
 );
@@ -64,22 +63,43 @@ module.exports = {
             import: path.resolve('src/assets/js', 'custom.js'),
             dependOn: 'shared'
         },
-        shared: 'lodash'
+        shared: 'lodash',
+        twig: path.resolve('src/assets/js', 'twig.js')
     },
     output: {
+        filename: 'assets/js/[name].js',
         path: path.resolve(__dirname, 'dist'),
-        filename: path.join('assets/js', '[name].js'),
-        clean: { keep: /\.gitignore/ }
+        publicPath: '/',
+        hotUpdateChunkFilename: 'hot/[id].hot-update.js',
+        hotUpdateMainFilename: 'hot/main.hot-update.json',
+        // clean: { keep: /\.gitignore/ }
     },
     optimization: {
         nodeEnv: ENV_MODE,
         minimize: true,
-        runtimeChunk: 'single'
+        runtimeChunk: false
     },
     devtool: ENV_MODE == ENV_DEVELOPMENT ? 'source-map' : false,
-    devServer: {
-        contentBase: path.resolve(__dirname, 'dist')
-    },
+    // devServer: {
+    //     public: 'http://local.muhit.me:8080',
+    //     host: 'local.muhit.me',
+    //     port: 8080,
+    //     https: false,
+    //     open: true,
+    //     liveReload: true,
+    //     disableHostCheck: true,
+    //     hot: true,
+    //     overlay: true,
+    //     contentBase: path.resolve(__dirname, 'dist'),
+    //     watchContentBase: true,
+    //     watchOptions: {
+    //         poll: true,
+    //         ignored: /node_modules/,
+    //     },
+    //     headers: { 'Access-Control-Allow-Origin': '*' },
+    //     writeToDisk: true,
+    //     compress: false,
+    // },
     module: {
         rules: [
             {
@@ -101,25 +121,33 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|svg|jpe?g|gif|webp)$/i,
+                test: /\.(png|svg|jpe?g|gif|webp|ttf|eot|woff2?)$/i,
                 loader: 'file-loader',
                 options: {
-                    name: '[name].[ext]?v=[contenthash]',
-                    outputPath: fileLoaderOutputPath
-                }
-            },
-            {
-                test: /\.(ttf|eot|woff2?)$/i,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?v=[contenthash]',
-                    outputPath: fileLoaderOutputPath
+                    name: '[path][name].[ext]?v=[contenthash]',
+                    context: path.resolve(__dirname, 'src'),
+                    outputPath: (url, resourcePath, context) => {
+                        let relativePath = path.relative(context, resourcePath).replace(/\\/g, '/');
+                    
+                        if(/fontello/.test(relativePath)) {
+                            return relativePath.replace('fontello/font', 'fonts/fontello');
+                        }
+                    
+                        return relativePath;
+                    }
                 }
             },
             {
                 test: /\.twig$/i,
                 use: [
                     { loader: 'raw-loader' },
+                    // {
+                    //     loader: 'file-loader',
+                    //     options: {
+                    //         context: path.resolve('src/views/pages'),
+                    //         name: '[name].html',
+                    //     },
+                    // },
                     { loader: 'twig-html-loader',
                         options: {
                             namespaces: {
@@ -132,9 +160,15 @@ module.exports = {
                                 return context.fs.readJsonSync(data, { throws: false }) || {};
                             }
                         }
-                    }
+                    },
+                    // { loader: 'extract-loader', options: {
+                    //     publicPath: '/'
+                    // } },
+                    // { loader: 'html-loader', options: {
+                    //     esModule: false
+                    // }},
                 ]
-            }
+            },
         ]
     },
     plugins: [
@@ -142,6 +176,15 @@ module.exports = {
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery'
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: '**/*',
+                    to: 'assets/img/',
+                    context: path.resolve(__dirname, 'src/assets/img')
+                }
+            ]
         }),
         new SaveRemoteFileWebpackPlugin(require('./remote.config')),
         // new FontelloWebpackPlugin({
@@ -152,8 +195,60 @@ module.exports = {
         //     }
         // }),
         new MiniCssExtractPlugin({
-            filename: path.join('assets/css', '[name].css'),
+            filename: 'assets/css/[name].css',
             chunkFilename: '[id].css'
+        }),
+        new WebpackManifestPlugin({
+            fileName: 'manifest.json',
+            basePath: ''
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new WebpackDashboardPlugin(),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [ '**/*', '!.gitignore' ],
+            verbose: true,
+            dry: false
+        }),
+        // new WorkboxWebpackPlugin.GenerateSW({
+        //     swDest: 'assets/js/sw.js',
+        //     importScripts: [
+        //         'assets/js/workbox-catch-handler.js'
+        //     ],
+        //     exclude: [
+        //         /\.(png|jpe?g|gif|svg|webp)$/i,
+        //         /\.map$/,
+        //         /^manifest.*\\.js(?:on)?$/,
+        //     ],
+        //     offlineGoogleAnalytics: true,
+        //     runtimeCaching: [
+        //         {
+        //             urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+        //             handler: 'CacheFirst',
+        //             options: {
+        //                 cacheName: 'images',
+        //                 expiration: {
+        //                     maxEntries: 20
+        //                 }
+        //             }
+        //         }
+        //     ]
+        // }),
+        new FaviconsWebpackPlugin({
+            logo: path.resolve('src/assets/img/favicon.png'),
+            prefix: 'assets/img/favicons/',
+            cache: true
+        }),
+        new BrowserSyncWebpackPlugin({
+            server: {
+                baseDir: path.resolve(__dirname, 'dist'),
+                directory: false,
+                index: 'index.html'
+            },
+            host: 'local.muhit.me',
+            port: 8080,
+            https: false,
+            open: true,
+            notify: true
         })
     ].concat(htmlWebpackPlugins)
 };
