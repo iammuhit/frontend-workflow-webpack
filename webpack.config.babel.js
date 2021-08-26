@@ -43,9 +43,9 @@ const dirWalker = (dir) => {
 const pages = dirWalker(path.join('src/views', 'pages'));
 const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin({
-        filename: file.replace(/\\/g, '/').replace('src/views/pages/', '').replace('.twig', '.html'),
+        filename: file.replace(/\\/g, '/').replace('src/views/pages/', '../').replace('.twig', '.html'),
         template: path.resolve(__dirname, file),
-        inject: false,
+        inject: true,
         minify: false,
         cache: true,
         hash: false
@@ -67,9 +67,9 @@ module.exports = {
         twig: path.resolve('src/assets/js', 'twig.js')
     },
     output: {
-        filename: 'assets/js/[name].js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
+        filename: 'js/[name].js',
+        path: path.resolve(__dirname, 'dist/assets'),
+        // publicPath: '/',
         hotUpdateChunkFilename: 'hot/[id].hot-update.js',
         hotUpdateMainFilename: 'hot/main.hot-update.json',
         // clean: { keep: /\.gitignore/ }
@@ -125,7 +125,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[path][name].[ext]?v=[contenthash]',
-                    context: path.resolve(__dirname, 'src'),
+                    context: path.resolve(__dirname, 'src/assets'),
                     outputPath: (url, resourcePath, context) => {
                         let relativePath = path.relative(context, resourcePath).replace(/\\/g, '/');
                     
@@ -162,7 +162,7 @@ module.exports = {
                         }
                     },
                     // { loader: 'extract-loader', options: {
-                    //     publicPath: '/'
+                    //     publicPath: 'assets/'
                     // } },
                     // { loader: 'html-loader', options: {
                     //     esModule: false
@@ -181,7 +181,7 @@ module.exports = {
             patterns: [
                 {
                     from: '**/*',
-                    to: 'assets/img/',
+                    to: 'img/',
                     context: path.resolve(__dirname, 'src/assets/img')
                 }
             ]
@@ -195,12 +195,13 @@ module.exports = {
         //     }
         // }),
         new MiniCssExtractPlugin({
-            filename: 'assets/css/[name].css',
+            filename: 'css/[name].css',
             chunkFilename: '[id].css'
         }),
         new WebpackManifestPlugin({
             fileName: 'manifest.json',
-            basePath: ''
+            basePath: '',
+            publicPath: ''
         }),
         new webpack.HotModuleReplacementPlugin(),
         new WebpackDashboardPlugin(),
@@ -210,9 +211,9 @@ module.exports = {
             dry: false
         }),
         // new WorkboxWebpackPlugin.GenerateSW({
-        //     swDest: 'assets/js/sw.js',
+        //     swDest: 'sw.js',
         //     importScripts: [
-        //         'assets/js/workbox-catch-handler.js'
+        //         'workbox-catch-handler.js'
         //     ],
         //     exclude: [
         //         /\.(png|jpe?g|gif|svg|webp)$/i,
@@ -235,7 +236,7 @@ module.exports = {
         // }),
         new FaviconsWebpackPlugin({
             logo: path.resolve('src/assets/img/favicon.png'),
-            prefix: 'assets/img/favicons/',
+            prefix: 'img/favicons/',
             cache: true
         }),
         new BrowserSyncWebpackPlugin({
