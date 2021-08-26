@@ -16,6 +16,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import { exec } from 'child_process';
 
 const envConfig = dotEnv.config();
 
@@ -51,6 +52,10 @@ const htmlWebpackPlugins = pages.map(
         hash: false
     })
 );
+
+exec('fontello-cli install --config fontello.config.json --css src/assets/fontello/css --font src/assets/fontello/font', (error, stdout, stderr) => {
+    console.log(`\nFontello:\n${stdout}`);
+});
 
 module.exports = {
     mode: ENV_MODE,
