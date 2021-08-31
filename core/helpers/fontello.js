@@ -15,10 +15,13 @@ const fontelloConfig = {
 export const install = (fontelloOptions) => {
     const options = merge(fontelloConfig, fontelloOptions);
     const action = `fontello-cli install --config ${options.config} --css ${options.output.css} --font ${options.output.font}`;
+    const sessionFile = path.resolve(env.PATH_BASE, '.fontello-session');
 
-    fsExtra.unlinkSync(path.resolve(env.PATH_BASE, '.fontello-session'), (error) => {
-        if(error) { console.error(error); }
-    });
+    if(fsExtra.existsSync(sessionFile)) {
+        fsExtra.unlinkSync(sessionFile, (error) => {
+            if(error) { console.error(error); }
+        });
+    }
 
     exec(action, (error, stdout, stderr) => {
         console.info('\nFontello:\n');

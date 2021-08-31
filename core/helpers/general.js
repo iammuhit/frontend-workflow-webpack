@@ -3,8 +3,6 @@ import Template from 'lodash.template';
 export const env = (key, value) => {
     let res = process.env[key] ? process.env[key] : value;
 
-    console.log(res);
-
     if (res === 'true') res = true;
     if (res === 'false') res = false;
     if (res === null) res = null;
