@@ -1,7 +1,5 @@
-import webpack from 'webpack';
 import path from 'path';
-import fsExtra from 'fs-extra';
-import dotEnv from 'dotenv';
+import webpack from 'webpack';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
@@ -16,245 +14,58 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import { exec } from 'child_process';
 
-const envConfig = dotEnv.config();
+import app from './core/bootstrap/app';
 
-const ENV_PRODUCTION = 'production';
-const ENV_DEVELOPMENT = 'development';
-const ENV_MODE = process.env.APP_MODE == ENV_DEVELOPMENT ? ENV_DEVELOPMENT : ENV_PRODUCTION;
+const helper = app.load.helper();
+const config = app.load.config();
 
-const dirWalker = (dir) => {
-    let files = [];
-    
-    fsExtra.readdirSync(dir).forEach(filename => {
-        const file = path.join(dir, filename);
-        const status = fsExtra.statSync(file);
-
-        if(status && status.isDirectory() && path.basename(file).indexOf('_') !== 0) {
-            files = files.concat(dirWalker(file));
-        } else if(status && !status.isDirectory() && path.extname(file) === '.twig' && path.basename(file).indexOf('_') !== 0) {
-            files.push(file);
-        }
-    });
-
-    return files;
-};
-
-const pages = dirWalker(path.join('src/views', 'pages'));
+const pages = helper.file.dirWalker(path.join(config.env.PATH_COMPONENTS, 'pages'), '.twig');
 const htmlWebpackPlugins = pages.map(
-    file => new HtmlWebpackPlugin({
-        filename: file.replace(/\\/g, '/').replace('src/views/pages/', '../').replace('.twig', '.html'),
-        template: path.resolve(__dirname, file),
-        inject: true,
-        minify: false,
-        cache: true,
-        hash: false
-    })
+    file => new HtmlWebpackPlugin(config.plugins.html(file))
 );
 
-exec('fontello-cli install --config fontello.config.json --css src/assets/fontello/css --font src/assets/fontello/font', (error, stdout, stderr) => {
-    console.log(`\nFontello:\n${stdout}`);
-});
+if(helper.general.env('FONTELLO_INSTALL', true)) {
+    helper.fontello.install({
+        config: path.resolve(config.env.PATH_BASE, 'fontello.config.json'),
+        output: {
+            css: path.resolve(config.env.PATH_RESOURCES, 'fontello/css'),
+            font: path.resolve(config.env.PATH_RESOURCES, 'fontello/font')
+        }
+    });
+}
 
 module.exports = {
-    mode: ENV_MODE,
-    entry: {
-        app: {
-            import: path.resolve('src/assets/js', 'app.js'),
-            dependOn: 'shared'
-        },
-        custom: {
-            import: path.resolve('src/assets/js', 'custom.js'),
-            dependOn: 'shared'
-        },
-        shared: 'lodash',
-        twig: path.resolve('src/assets/js', 'twig.js')
+    mode: config.env.APP_ENV,
+    entry: config.app.entry,
+    output: config.app.output,
+    optimization: config.app.optimization,
+    devtool: config.env.APP_ENV == config.env.ENV_DEVELOPMENT ? 'source-map' : false,
+    // devServer: config.server.development,
+    resolve: {
+        alias: config.app.resolve.alias
     },
-    output: {
-        filename: 'js/[name].js',
-        path: path.resolve(__dirname, 'dist/assets'),
-        // publicPath: '/',
-        hotUpdateChunkFilename: 'hot/[id].hot-update.js',
-        hotUpdateMainFilename: 'hot/main.hot-update.json',
-        // clean: { keep: /\.gitignore/ }
-    },
-    optimization: {
-        nodeEnv: ENV_MODE,
-        minimize: true,
-        runtimeChunk: false
-    },
-    devtool: ENV_MODE == ENV_DEVELOPMENT ? 'source-map' : false,
-    // devServer: {
-    //     public: 'http://local.muhit.me:8080',
-    //     host: 'local.muhit.me',
-    //     port: 8080,
-    //     https: false,
-    //     open: true,
-    //     liveReload: true,
-    //     disableHostCheck: true,
-    //     hot: true,
-    //     overlay: true,
-    //     contentBase: path.resolve(__dirname, 'dist'),
-    //     watchContentBase: true,
-    //     watchOptions: {
-    //         poll: true,
-    //         ignored: /node_modules/,
-    //     },
-    //     headers: { 'Access-Control-Allow-Origin': '*' },
-    //     writeToDisk: true,
-    //     compress: false,
-    // },
     module: {
         rules: [
-            {
-                test: /\.(js)$/,
-                exclude: /(node_modules|bower_components)/,
-                use: [ 'babel-loader' ]
-            },
-            {
-                test: /\.(css|scss)$/i,
-                exclude: /(node_modules|bower_components)/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {},
-                    },
-                    'css-loader',
-                    'sass-loader',
-                    'postcss-loader'
-                ]
-            },
-            {
-                test: /\.(png|svg|jpe?g|gif|webp|ttf|eot|woff2?)$/i,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]?v=[contenthash]',
-                    context: path.resolve(__dirname, 'src/assets'),
-                    outputPath: (url, resourcePath, context) => {
-                        let relativePath = path.relative(context, resourcePath).replace(/\\/g, '/');
-                    
-                        if(/fontello/.test(relativePath)) {
-                            return relativePath.replace('fontello/font', 'fonts/fontello');
-                        }
-                    
-                        return relativePath;
-                    }
-                }
-            },
-            {
-                test: /\.twig$/i,
-                use: [
-                    { loader: 'raw-loader' },
-                    // {
-                    //     loader: 'file-loader',
-                    //     options: {
-                    //         context: path.resolve('src/views/pages'),
-                    //         name: '[name].html',
-                    //     },
-                    // },
-                    { loader: 'twig-html-loader',
-                        options: {
-                            namespaces: {
-                                'layouts': path.join(process.cwd(), 'src/views/layouts'),
-                                'partials': path.join(process.cwd(), 'src/views/partials')
-                            },
-                            data: (context) => {
-                                const data = path.join(__dirname, 'src/data/app.json');
-                                context.addDependency(data); // Force webpack to watch file
-                                return context.fs.readJsonSync(data, { throws: false }) || {};
-                            }
-                        }
-                    },
-                    // { loader: 'extract-loader', options: {
-                    //     publicPath: 'assets/'
-                    // } },
-                    // { loader: 'html-loader', options: {
-                    //     esModule: false
-                    // }},
-                ]
-            },
+            config.module.rules.babel,
+            config.module.rules.scss,
+            config.module.rules.file,
+            config.module.rules.twig
         ]
     },
     plugins: [
-        new WebpackNotifierPlugin({ alwaysNotify: true }),
-        new webpack.ProvidePlugin({
-            jQuery: 'jquery',
-            $: 'jquery'
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: '**/*',
-                    to: 'img/',
-                    context: path.resolve(__dirname, 'src/assets/img')
-                }
-            ]
-        }),
-        new SaveRemoteFileWebpackPlugin(require('./remote.config')),
-        // new FontelloWebpackPlugin({
-        //     config: require('./fontello.config.json'),
-        //     output: {
-        //         css: path.join('assets/css', '[name].css'),
-        //         font: path.join('assets/fonts', '[name].[ext]')
-        //     }
-        // }),
-        new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
-            chunkFilename: '[id].css'
-        }),
-        new WebpackManifestPlugin({
-            fileName: 'manifest.json',
-            basePath: '',
-            publicPath: ''
-        }),
+        new webpack.ProvidePlugin(config.plugins.webpackProvider),
+        new BrowserSyncWebpackPlugin(config.plugins.browserSync),
+        new CleanWebpackPlugin(config.plugins.webpackClean),
+        new WebpackManifestPlugin(config.plugins.webpackManifest),
+        new WebpackNotifierPlugin(config.plugins.webpackNotifier),
+        new CopyWebpackPlugin(config.plugins.webpackCopy),
+        new SaveRemoteFileWebpackPlugin(config.plugins.saveRemoteFile),
+        new MiniCssExtractPlugin(config.plugins.miniCssExtract),
+        new FaviconsWebpackPlugin(config.plugins.favicons),
+        // new FontelloWebpackPlugin(config.plugins.fontello),
+        // new WorkboxWebpackPlugin.GenerateSW(config.plugins.workbox.generateSW),
         new webpack.HotModuleReplacementPlugin(),
-        new WebpackDashboardPlugin(),
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [ '**/*', '!.gitignore' ],
-            verbose: true,
-            dry: false
-        }),
-        // new WorkboxWebpackPlugin.GenerateSW({
-        //     swDest: 'sw.js',
-        //     importScripts: [
-        //         'workbox-catch-handler.js'
-        //     ],
-        //     exclude: [
-        //         /\.(png|jpe?g|gif|svg|webp)$/i,
-        //         /\.map$/,
-        //         /^manifest.*\\.js(?:on)?$/,
-        //     ],
-        //     offlineGoogleAnalytics: true,
-        //     runtimeCaching: [
-        //         {
-        //             urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-        //             handler: 'CacheFirst',
-        //             options: {
-        //                 cacheName: 'images',
-        //                 expiration: {
-        //                     maxEntries: 20
-        //                 }
-        //             }
-        //         }
-        //     ]
-        // }),
-        new FaviconsWebpackPlugin({
-            logo: path.resolve('src/assets/img/favicon.png'),
-            prefix: 'img/favicons/',
-            cache: true
-        }),
-        new BrowserSyncWebpackPlugin({
-            server: {
-                baseDir: path.resolve(__dirname, 'dist'),
-                directory: false,
-                index: 'index.html'
-            },
-            host: 'local.muhit.me',
-            port: 8080,
-            https: false,
-            open: true,
-            notify: true
-        })
+        new WebpackDashboardPlugin()
     ].concat(htmlWebpackPlugins)
 };

@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import Icon from '../img/favicon.png';
+import Icon from 'mayarun/resources/img/favicon.png';
 
-import '../css/app.css';
+import 'mayarun/resources/css/app.css';
 
 import 'jquery';
 import 'bootstrap';
