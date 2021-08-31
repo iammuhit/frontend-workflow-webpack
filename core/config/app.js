@@ -18,8 +18,8 @@ module.exports.output = {
     filename: 'js/[name].js',
     path: path.resolve(env.PATH_DIST, 'assets'),
     // publicPath: '/',
-    hotUpdateChunkFilename: 'hot/[id].hot-update.js',
-    hotUpdateMainFilename: 'hot/main.hot-update.json',
+    hotUpdateChunkFilename: 'hot/[id].[hash].hot-update.js',
+    hotUpdateMainFilename: 'hot/[hash].hot-update.json',
     // clean: { keep: /\.gitignore/ }
 };
 
