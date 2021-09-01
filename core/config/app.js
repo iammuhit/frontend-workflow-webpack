@@ -5,7 +5,7 @@ module.exports.entry = {
     jquery: ['jquery', 'jquery-migrate'],
     bootstrap: { import: 'bootstrap', dependOn: 'jquery' },
     lodash: { import: 'lodash', dependOn: 'jquery' },
-    app: { import: path.resolve(env.PATH_RESOURCES, 'js/app.js'), dependOn: ['jquery', 'bootstrap', 'lodash'] },
+    app: { import: path.resolve(env.PATH_APP, 'app.js'), dependOn: ['jquery', 'bootstrap', 'lodash'] },
     custom: { import: path.resolve(env.PATH_RESOURCES, 'js/custom.js'), dependOn: ['app'] },
     components: path.resolve(env.PATH_COMPONENTS, 'index.js')
 };
@@ -27,8 +27,7 @@ module.exports.optimization = {
 
 module.exports.resolve = {
     alias: {
-        'mayarun/core': env.PATH_CORE,
-        'mayarun/components': env.PATH_COMPONENTS,
-        'mayarun/resources': env.PATH_RESOURCES
+        'mayarun': env.PATH_APP,
+        'mayarun/core': env.PATH_CORE
     }
 };
