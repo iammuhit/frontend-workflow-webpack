@@ -24,6 +24,7 @@ const pages = helper.file.dirWalker(path.join(config.env.PATH_COMPONENTS, 'pages
 const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin(config.plugins.html(file))
 );
+const PrettyHtmlWebpackPlugin = app.load.plugin('PrettyHtml');
 
 if(helper.general.env('FONTELLO_INSTALL', true)) {
     helper.fontello.install({
@@ -61,6 +62,7 @@ module.exports = {
         new WebpackNotifierPlugin(config.plugins.webpackNotifier),
         new CopyWebpackPlugin(config.plugins.webpackCopy),
         new SaveRemoteFileWebpackPlugin(config.plugins.saveRemoteFile),
+        new PrettyHtmlWebpackPlugin(config.plugins.PrettyHtml),
         new MiniCssExtractPlugin(config.plugins.miniCssExtract),
         new FaviconsWebpackPlugin(config.plugins.favicons),
         // new FontelloWebpackPlugin(config.plugins.fontello),

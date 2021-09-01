@@ -11,6 +11,6 @@ export const errors = new Exceptions;
 export const config = (config) => load.config(config);
 export const helper = (helper) => load.helper(helper);
 export const library = (library) => load.library(library);
-export const task = (task) => load.task(task);
+export const plugin = (plugin) => load.plugin(plugin);
 
-export default { load, env, pkg, errors, config, helper, library, task };
+export default { load, env, pkg, errors, config, helper, library, plugin };

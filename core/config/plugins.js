@@ -12,6 +12,14 @@ module.exports.html = (file) => {
     };
 };
 
+module.exports.PrettyHtml = {
+    end_with_newline: true,
+    indent_size: 4,
+    indent_with_tabs: true,
+    indent_inner_html: true,
+    preserve_newlines: true,
+};
+
 module.exports.browserSync = {
     server: {
         baseDir: env.PATH_DIST,

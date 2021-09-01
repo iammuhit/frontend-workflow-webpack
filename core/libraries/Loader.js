@@ -17,8 +17,8 @@ export default class Loader {
         return library === undefined ? this._autoload('libraries') : this._load('libraries', library);
     }
 
-    task(task) {
-        return task === undefined ? this._autoload('tasks') : this._load('tasks', task);
+    plugin(plugin) {
+        return plugin === undefined ? this._autoload('plugins') : this._load('plugins', plugin);
     }
 
     _load(dirname, filename) {
