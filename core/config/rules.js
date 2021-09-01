@@ -1,4 +1,5 @@
 import path from 'path';
+import fsExtra from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from './env';
 
@@ -58,9 +59,15 @@ module.exports.twig = {
                     'partials': path.join(env.PATH_COMPONENTS, 'partials')
                 },
                 data: (context) => {
-                    const data = path.join(env.PATH_COMPONENTS, 'data/app.json');
-                    context.addDependency(data); // Force webpack to watch file
-                    return context.fs.readJsonSync(data, { throws: false }) || {};
+                    const filename = path.basename(context.resourcePath).replace('.twig', '.json');
+                    const data = path.join(env.PATH_COMPONENTS, 'data', filename);
+
+                    if(fsExtra.existsSync(data)) {
+                        context.addDependency(data); // Force webpack to watch file
+                        return context.fs.readJsonSync(data, { throws: false }) || {};
+                    }
+
+                    return {};
                 }
             }
         },
