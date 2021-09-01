@@ -62,7 +62,7 @@ module.exports = {
         new WebpackNotifierPlugin(config.plugins.webpackNotifier),
         new CopyWebpackPlugin(config.plugins.webpackCopy),
         new SaveRemoteFileWebpackPlugin(config.plugins.saveRemoteFile),
-        new PrettyHtmlWebpackPlugin(config.plugins.PrettyHtml),
+        new PrettyHtmlWebpackPlugin(config.plugins.prettyHtml),
         new MiniCssExtractPlugin(config.plugins.miniCssExtract),
         new FaviconsWebpackPlugin(config.plugins.favicons),
         // new FontelloWebpackPlugin(config.plugins.fontello),

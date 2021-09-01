@@ -12,7 +12,7 @@ module.exports.html = (file) => {
     };
 };
 
-module.exports.PrettyHtml = {
+module.exports.prettyHtml = {
     end_with_newline: true,
     indent_size: 4,
     indent_with_tabs: true,
