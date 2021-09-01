@@ -5,10 +5,11 @@ module.exports.html = (file) => {
     return {
         filename: path.basename(file).replace(/^/, '../').replace(path.extname(file), '.html'),
         template: path.resolve(file),
-        inject: true,
+        inject: 'body',
         minify: false,
         cache: true,
-        hash: false
+        hash: false,
+        excludeChunks: ['components']
     };
 };
 

@@ -41,6 +41,7 @@ module.exports = {
     entry: config.app.entry,
     output: config.app.output,
     optimization: config.app.optimization,
+    target: config.app.target,
     devtool: config.env.APP_ENV == config.env.ENV_DEVELOPMENT ? 'source-map' : false,
     // devServer: config.server.development,
     resolve: {
@@ -67,7 +68,7 @@ module.exports = {
         new FaviconsWebpackPlugin(config.plugins.favicons),
         // new FontelloWebpackPlugin(config.plugins.fontello),
         // new WorkboxWebpackPlugin.GenerateSW(config.plugins.workbox.generateSW),
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
         new WebpackDashboardPlugin()
     ].concat(htmlWebpackPlugins)
 };
