@@ -4,7 +4,11 @@
         "node": true,
         "es2021": true
     },
-    "extends": "eslint:recommended",
+    "plugins": ["tailwindcss"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:tailwindcss/recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
