@@ -16,5 +16,6 @@ export const PATH_CORE        = path.resolve(PATH_BASE, 'core');
 export const PATH_APP         = path.resolve(PATH_BASE, 'src');
 export const PATH_COMPONENTS  = path.resolve(PATH_BASE, 'src/components');
 export const PATH_RESOURCES   = path.resolve(PATH_BASE, 'src/resources');
+export const PATH_ASSETS      = path.resolve(PATH_BASE, 'src/assets');
 export const PATH_DIST        = path.resolve(PATH_BASE, env.PATH_DIST ?? 'public');
 export const PATH_DIST_ASSETS = path.resolve(PATH_BASE, env.PATH_DIST ?? 'public/assets');
