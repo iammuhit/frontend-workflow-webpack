@@ -1,5 +1,5 @@
 import path from 'path';
-import env from './env';
+import * as constants from './constants';
 
 module.exports.html = (file) => {
     return {
@@ -23,7 +23,7 @@ module.exports.prettyHtml = {
 
 module.exports.browserSync = {
     server: {
-        baseDir: env.PATH_DIST,
+        baseDir: constants.PATH_DIST,
         directory: false,
         index: 'index.html'
     },
@@ -54,15 +54,15 @@ module.exports.webpackCopy = {
         {
             from: '**/*',
             to: 'img/',
-            context: path.resolve(env.PATH_RESOURCES, 'img')
+            context: path.resolve(constants.PATH_RESOURCES, 'img')
         }
     ]
 };
 
-module.exports.saveRemoteFile = require(path.resolve(env.PATH_BASE, 'remote.config'));
+module.exports.saveRemoteFile = require(path.resolve(constants.PATH_BASE, 'remote.config'));
 
 module.exports.fontello = {
-    config: require(path.resolve(env.PATH_BASE, 'fontello.config.json')),
+    config: require(path.resolve(constants.PATH_BASE, 'fontello.config.json')),
     output: {
         css: 'css/[name].css',
         font: 'fonts/[name].[ext]'
@@ -76,8 +76,8 @@ module.exports.miniCssExtract = {
 
 module.exports.webpackClean = {
     cleanOnceBeforeBuildPatterns: [
-        path.join(env.PATH_DIST, '**/*'),
-        path.join('!', env.PATH_DIST, '**/.gitignore')
+        path.join(constants.PATH_DIST, '**/*'),
+        path.join('!', constants.PATH_DIST, '**/.gitignore')
     ],
     verbose: true,
     dry: false
@@ -88,7 +88,7 @@ module.exports.workbox = {
 };
 
 module.exports.favicons = {
-    logo: path.resolve(env.PATH_RESOURCES, 'img/favicon.png'),
+    logo: path.resolve(constants.PATH_RESOURCES, 'img/favicon.png'),
     prefix: 'img/favicons/',
     cache: true
 };

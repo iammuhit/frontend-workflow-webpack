@@ -3,19 +3,19 @@ import merge from 'webpack-merge';
 import fsExtra from 'fs-extra';
 import { exec } from 'child_process';
 
-const env = require(path.resolve(path.dirname(__dirname), 'config/env'));
+const constants = require(path.resolve(path.dirname(__dirname), 'config/constants'));
 const fontelloConfig = {
-    config: path.resolve(env.PATH_BASE, 'fontello.config.json'),
+    config: path.resolve(constants.PATH_BASE, 'fontello.config.json'),
     output: {
-        css: path.resolve(env.PATH_RESOURCES, 'fontello/css'),
-        font: path.resolve(env.PATH_RESOURCES, 'fontello/font')
+        css: path.resolve(constants.PATH_RESOURCES, 'fontello/css'),
+        font: path.resolve(constants.PATH_RESOURCES, 'fontello/font')
     }
 };
 
 export const install = (fontelloOptions) => {
     const options = merge(fontelloConfig, fontelloOptions);
     const action = `fontello-cli install --config ${options.config} --css ${options.output.css} --font ${options.output.font}`;
-    const sessionFile = path.resolve(env.PATH_BASE, '.fontello-session');
+    const sessionFile = path.resolve(constants.PATH_BASE, '.fontello-session');
 
     if(fsExtra.existsSync(sessionFile)) {
         fsExtra.unlinkSync(sessionFile, (error) => {

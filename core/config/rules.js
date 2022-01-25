@@ -1,7 +1,7 @@
 import path from 'path';
 import fsExtra from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import env from './env';
+import * as constants from './constants';
 
 module.exports.babel = {
     test: /\.(js)$/,
@@ -28,7 +28,7 @@ module.exports.file = {
     loader: 'file-loader',
     options: {
         name: '[path][name].[ext]?v=[contenthash]',
-        context: env.PATH_RESOURCES,
+        context: constants.PATH_RESOURCES,
         outputPath: (url, resourcePath, context) => {
             let relativePath = path.relative(context, resourcePath).replace(/\\/g, '/');
         
@@ -48,19 +48,19 @@ module.exports.twig = {
         // {
         //     loader: 'file-loader',
         //     options: {
-        //         context: path.resolve(env.PATH_COMPONENTS, 'pages'),
+        //         context: path.resolve(constants.PATH_COMPONENTS, 'pages'),
         //         name: '[name].html',
         //     },
         // },
         { loader: 'twig-html-loader',
             options: {
                 namespaces: {
-                    'layouts': path.join(env.PATH_COMPONENTS, 'layouts'),
-                    'partials': path.join(env.PATH_COMPONENTS, 'partials')
+                    'layouts': path.join(constants.PATH_COMPONENTS, 'layouts'),
+                    'partials': path.join(constants.PATH_COMPONENTS, 'partials')
                 },
                 data: (context) => {
                     const filename = path.basename(context.resourcePath).replace('.twig', '.json');
-                    const data = path.join(env.PATH_COMPONENTS, 'data', filename);
+                    const data = path.join(constants.PATH_COMPONENTS, 'data', filename);
 
                     if(fsExtra.existsSync(data)) {
                         context.addDependency(data); // Force webpack to watch file

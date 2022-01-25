@@ -1,7 +1,7 @@
 import path from 'path';
 import fsExtra from 'fs-extra';
 import requireDir from 'require-dir';
-import env from '../config/env';
+import * as env from '../config/constants';
 
 export default class Loader {
 

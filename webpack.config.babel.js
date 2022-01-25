@@ -20,7 +20,7 @@ import app from './core/bootstrap/app';
 const helper = app.load.helper();
 const config = app.load.config();
 
-const pages = helper.file.dirWalker(path.join(config.env.PATH_COMPONENTS, 'pages'), '.twig');
+const pages = helper.file.dirWalker(path.join(config.constants.PATH_COMPONENTS, 'pages'), '.twig');
 const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin(config.plugins.html(file))
 );
@@ -28,21 +28,21 @@ const PrettyHtmlWebpackPlugin = app.load.plugin('PrettyHtml');
 
 if(helper.general.env('FONTELLO_INSTALL', true)) {
     helper.fontello.install({
-        config: path.resolve(config.env.PATH_BASE, 'fontello.config.json'),
+        config: path.resolve(config.constants.PATH_BASE, 'fontello.config.json'),
         output: {
-            css: path.resolve(config.env.PATH_RESOURCES, 'fontello/css'),
-            font: path.resolve(config.env.PATH_RESOURCES, 'fontello/font')
+            css: path.resolve(config.constants.PATH_RESOURCES, 'fontello/css'),
+            font: path.resolve(config.constants.PATH_RESOURCES, 'fontello/font')
         }
     });
 }
 
 module.exports = {
-    mode: config.env.APP_MODE,
+    mode: config.app.APP_MODE,
     entry: config.app.entry,
     output: config.app.output,
     optimization: config.app.optimization,
     target: config.app.target,
-    devtool: config.env.APP_MODE == config.env.ENV_DEVELOPMENT ? 'source-map' : false,
+    devtool: config.constants.APP_MODE == config.constants.ENV_DEVELOPMENT ? 'source-map' : false,
     // devServer: config.server.development,
     resolve: {
         alias: config.app.resolve.alias

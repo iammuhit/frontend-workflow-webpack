@@ -1,4 +1,4 @@
-import env from './env';
+import * as constants from './constants';
 
 module.exports.development = {
     public: 'http://local.muhit.me:8080',
@@ -10,7 +10,7 @@ module.exports.development = {
     disableHostCheck: true,
     hot: true,
     overlay: true,
-    contentBase: env.PATH_DIST,
+    contentBase: constants.PATH_DIST,
     watchContentBase: true,
     watchOptions: {
         poll: true,
