@@ -44,9 +44,7 @@ module.exports = {
     optimization: config.app.optimization,
     devtool: config.app.devtool,
     // devServer: config.server.development,
-    resolve: {
-        alias: config.app.resolve.alias
-    },
+    resolve: config.app.resolve,
     module: {
         rules: [
             config.module.rules.babel,

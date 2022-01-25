@@ -41,7 +41,7 @@ export const devtool = APP_MODE !== constants.ENV_PRODUCTION ? 'source-map' : fa
 
 export const resolve = {
     alias: {
-        'mayarun': constants.PATH_APP,
-        'mayarun/core': constants.PATH_CORE
-    }
+        '@mayarun'     : constants.PATH_APP,
+        '@mayarun/core': constants.PATH_CORE,
+    },
 };
