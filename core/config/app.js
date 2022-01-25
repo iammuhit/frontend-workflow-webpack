@@ -4,6 +4,12 @@ import { env } from '../helpers/general';
 
 export const APP_MODE = env('APP_MODE', constants.ENV_DEVELOPMENT);
 
+export const performance = {
+    hints: false,
+    maxEntrypointSize: 1024,
+    maxAssetSize: 1024,
+};
+
 export const entry = {
     jquery: ['jquery', 'jquery-migrate'],
     bootstrap: { import: 'bootstrap', dependOn: 'jquery' },
