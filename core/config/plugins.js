@@ -75,7 +75,10 @@ module.exports.miniCssExtract = {
 };
 
 module.exports.webpackClean = {
-    cleanOnceBeforeBuildPatterns: [ '**/*', '!.gitignore' ],
+    cleanOnceBeforeBuildPatterns: [
+        path.join(env.PATH_DIST, '**/*'),
+        path.join('!', env.PATH_DIST, '**/.gitignore')
+    ],
     verbose: true,
     dry: false
 };
