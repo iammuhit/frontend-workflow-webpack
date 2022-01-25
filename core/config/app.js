@@ -20,7 +20,7 @@ module.exports.output = {
 };
 
 module.exports.optimization = {
-    nodeEnv: env.APP_ENV,
+    nodeEnv: env.APP_MODE,
     minimize: true,
     runtimeChunk: 'single',
 };
