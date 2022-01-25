@@ -21,12 +21,9 @@ export const entry = {
 };
 
 export const output = {
+    path    : path.resolve(constants.PATH_DIST, 'assets'),
     filename: 'js/[name].min.js',
-    path: path.resolve(constants.PATH_DIST, 'assets'),
-    // publicPath: '/',
-    hotUpdateChunkFilename: 'hot/[id].[hash].hot-update.js',
-    hotUpdateMainFilename: 'hot/[hash].hot-update.json',
-    // clean: { keep: /\.gitignore/ }
+    // clean   : { keep: /\.gitignore/ }
 };
 
 export const optimization = {
