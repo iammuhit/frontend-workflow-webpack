@@ -40,8 +40,8 @@ module.exports = {
     mode: config.app.APP_MODE,
     entry: config.app.entry,
     output: config.app.output,
-    optimization: config.app.optimization,
     target: config.app.target,
+    optimization: config.app.optimization,
     devtool: config.constants.APP_MODE == config.constants.ENV_DEVELOPMENT ? 'source-map' : false,
     // devServer: config.server.development,
     resolve: {

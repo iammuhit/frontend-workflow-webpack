@@ -26,6 +26,8 @@ export const output = {
     // clean   : { keep: /\.gitignore/ }
 };
 
+export const target = 'web';
+
 export const optimization = {
     runtimeChunk: 'single',
     minimize    : APP_MODE === constants.ENV_PRODUCTION,
