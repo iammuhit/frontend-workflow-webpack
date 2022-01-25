@@ -1,4 +1,5 @@
 import path from 'path';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import * as constants from './constants';
 import { env } from '../helpers/general';
 
@@ -29,9 +30,12 @@ export const output = {
 };
 
 export const optimization = {
-    nodeEnv: APP_MODE,
-    minimize: true,
     runtimeChunk: 'single',
+    minimize    : APP_MODE === constants.ENV_PRODUCTION,
+    minimizer   : [
+        '...',
+        new CssMinimizerPlugin(),
+    ],
 };
 
 export const resolve = {
