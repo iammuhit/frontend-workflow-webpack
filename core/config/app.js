@@ -37,6 +37,8 @@ export const optimization = {
     ],
 };
 
+export const devtool = APP_MODE !== constants.ENV_PRODUCTION ? 'source-map' : false;
+
 export const resolve = {
     alias: {
         'mayarun': constants.PATH_APP,

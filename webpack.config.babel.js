@@ -42,7 +42,7 @@ module.exports = {
     output: config.app.output,
     target: config.app.target,
     optimization: config.app.optimization,
-    devtool: config.constants.APP_MODE == config.constants.ENV_DEVELOPMENT ? 'source-map' : false,
+    devtool: config.app.devtool,
     // devServer: config.server.development,
     resolve: {
         alias: config.app.resolve.alias
