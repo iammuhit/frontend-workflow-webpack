@@ -46,12 +46,7 @@ module.exports = {
     // devServer: config.server.development,
     resolve: config.app.resolve,
     module: {
-        rules: [
-            config.module.rules.babel,
-            config.module.rules.scss,
-            config.module.rules.file,
-            config.module.rules.twig
-        ]
+        rules: Object.values(config.module.rules),
     },
     plugins: [
         new webpack.ProvidePlugin(config.plugins.webpackProvider),

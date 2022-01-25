@@ -3,13 +3,24 @@ import fsExtra from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as constants from './constants';
 
-module.exports.babel = {
-    test: /\.(js)$/,
+export const babel = {
+    test: /\.m?js$/,
     exclude: /(node_modules|bower_components)/,
-    use: [ 'babel-loader' ]
+    use: {
+        loader: 'babel-loader',
+        options: {},
+    },
 };
 
-module.exports.scss = {
+export const js = {
+    test: /assets[\\/]js[\\/].*\.js$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: 'js/[name][ext][query]',
+    },
+};
+
+export const scss = {
     test: /\.(css|scss)$/i,
     exclude: /(node_modules|bower_components)/,
     use: [
@@ -19,26 +30,69 @@ module.exports.scss = {
         },
         'css-loader',
         'sass-loader',
-        'postcss-loader'
-    ]
+        'postcss-loader',
+    ],
 };
 
-module.exports.file = {
-    test: /\.(png|svg|jpe?g|gif|webp|ttf|eot|woff2?)$/i,
-    loader: 'file-loader',
-    options: {
-        name: '[path][name].[ext]?v=[contenthash]',
-        context: constants.PATH_RESOURCES,
-        outputPath: (url, resourcePath, context) => {
-            let relativePath = path.relative(context, resourcePath).replace(/\\/g, '/');
-        
-            if(/fontello/.test(relativePath)) {
-                return relativePath.replace('fontello/font', 'fonts/fontello');
+export const less = {
+    test: /\.less$/i,
+    exclude: /(node_modules|bower_components)/,
+    use: [
+        {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+                esModule: false,
+            },
+        },
+        'css-loader',
+        'less-loader',
+        'postcss-loader',
+    ],
+};
+
+export const images = {
+    test: /\.(png|svg|jpg|jpeg|gif)(\?v=\w+)?$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: (pathData) => {
+            let context = path.resolve(constants.PATH_ASSETS);
+            let resourcePath = pathData.module.resource;
+
+            if(/node_modules/.test(resourcePath)) {
+                context = path.resolve(__dirname, 'node_modules');
             }
-        
-            return relativePath;
-        }
-    }
+
+            if(/jquery-ui-dist/.test(resourcePath)) {
+                resourcePath = resourcePath.replace('jquery-ui-dist/images', 'img/jquery-ui');
+            }
+
+            return path.relative(context, resourcePath).replace(/\\/g, '/');
+        },
+    },
+};
+
+export const fonts = {
+    test: /\.(woff|woff2|eot|ttf|oft)(\?v=\w+)?$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: 'fonts/[name][ext][query]',
+    },
+};
+
+export const svgFonts = {
+    test: /(fonts|webfonts)[\\/].*\.(svg)(\?v=\w+)?$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: 'fonts/[name][ext][query]',
+    },
+};
+
+export const fontelloFonts = {
+    test: /fontello[\\/]font[\\/].*\.(woff|woff2|eot|ttf|oft)(\?v=\w+)?$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: 'fonts/fontello/[name][ext][query]',
+    },
 };
 
 module.exports.twig = {
