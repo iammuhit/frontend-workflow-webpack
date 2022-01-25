@@ -88,7 +88,7 @@ export const svgFonts = {
 };
 
 export const fontelloFonts = {
-    test: /fontello[\\/]font[\\/].*\.(woff|woff2|eot|ttf|oft)(\?v=\w+)?$/i,
+    test: /fontello[\\/]font[\\/].*\.(woff|woff2|eot|ttf|oft|svg)(\?v=\w+)?$/i,
     type: 'asset/resource',
     generator: {
         filename: 'fonts/fontello/[name][ext][query]',

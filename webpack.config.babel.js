@@ -30,8 +30,8 @@ if(helper.general.env('FONTELLO_INSTALL', true)) {
     helper.fontello.install({
         config: path.resolve(config.constants.PATH_BASE, 'fontello.config.json'),
         output: {
-            css: path.resolve(config.constants.PATH_RESOURCES, 'fontello/css'),
-            font: path.resolve(config.constants.PATH_RESOURCES, 'fontello/font')
+            css: path.resolve(config.constants.PATH_ASSETS, 'fontello/css'),
+            font: path.resolve(config.constants.PATH_ASSETS, 'fontello/font')
         }
     });
 }

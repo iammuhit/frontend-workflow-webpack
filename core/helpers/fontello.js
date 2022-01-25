@@ -7,8 +7,8 @@ const constants = require(path.resolve(path.dirname(__dirname), 'config/constant
 const fontelloConfig = {
     config: path.resolve(constants.PATH_BASE, 'fontello.config.json'),
     output: {
-        css: path.resolve(constants.PATH_RESOURCES, 'fontello/css'),
-        font: path.resolve(constants.PATH_RESOURCES, 'fontello/font')
+        css: path.resolve(constants.PATH_ASSETS, 'fontello/css'),
+        font: path.resolve(constants.PATH_ASSETS, 'fontello/font')
     }
 };
 

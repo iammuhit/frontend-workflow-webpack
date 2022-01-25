@@ -16,7 +16,7 @@ export const entry = {
     bootstrap: { import: 'bootstrap', dependOn: 'jquery' },
     lodash: { import: 'lodash', dependOn: 'jquery' },
     app: { import: path.resolve(constants.PATH_APP, 'app.js'), dependOn: ['jquery', 'bootstrap', 'lodash'] },
-    custom: { import: path.resolve(constants.PATH_RESOURCES, 'js/custom.js'), dependOn: ['app'] },
+    custom: { import: path.resolve(constants.PATH_ASSETS, 'js/custom.js'), dependOn: ['app'] },
     components: path.resolve(constants.PATH_COMPONENTS, 'index.js')
 };
 

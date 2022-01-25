@@ -54,7 +54,7 @@ module.exports.webpackCopy = {
         {
             from: '**/*',
             to: 'img/',
-            context: path.resolve(constants.PATH_RESOURCES, 'img')
+            context: path.resolve(constants.PATH_ASSETS, 'img')
         }
     ]
 };
@@ -88,7 +88,7 @@ module.exports.workbox = {
 };
 
 module.exports.favicons = {
-    logo: path.resolve(constants.PATH_RESOURCES, 'img/favicon.png'),
+    logo: path.resolve(constants.PATH_ASSETS, 'img/favicon.png'),
     prefix: 'img/favicons/',
     cache: true
 };
