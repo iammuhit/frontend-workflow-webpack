@@ -37,12 +37,12 @@ if(helper.general.env('FONTELLO_INSTALL', true)) {
 }
 
 module.exports = {
-    mode: config.env.APP_ENV,
+    mode: config.env.APP_MODE,
     entry: config.app.entry,
     output: config.app.output,
     optimization: config.app.optimization,
     target: config.app.target,
-    devtool: config.env.APP_ENV == config.env.ENV_DEVELOPMENT ? 'source-map' : false,
+    devtool: config.env.APP_MODE == config.env.ENV_DEVELOPMENT ? 'source-map' : false,
     // devServer: config.server.development,
     resolve: {
         alias: config.app.resolve.alias
