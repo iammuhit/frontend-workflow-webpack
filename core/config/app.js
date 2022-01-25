@@ -41,7 +41,8 @@ export const devtool = APP_MODE !== constants.ENV_PRODUCTION ? 'source-map' : fa
 
 export const resolve = {
     alias: {
-        '@mayarun'     : constants.PATH_APP,
-        '@mayarun/core': constants.PATH_CORE,
+        '@mayarun'     : path.resolve(constants.PATH_APP),
+        '@mayarun/core': path.resolve(constants.PATH_CORE),
+        'jquery-ui'    : path.resolve(constants.PATH_NODE_MODULES, 'jquery-ui-dist/jquery-ui.js'),
     },
 };
