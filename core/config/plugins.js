@@ -2,7 +2,7 @@ import path from 'path';
 import * as constants from './constants';
 import { env } from '../helpers/general';
 
-module.exports.html = (file) => {
+export const html = (file) => {
     return {
         filename: () => {
             const context = path.resolve(constants.PATH_TEMPLATES);
@@ -21,55 +21,71 @@ module.exports.html = (file) => {
     };
 };
 
-module.exports.prettyHtml = {
-    end_with_newline: true,
-    indent_size: 4,
-    indent_with_tabs: true,
-    indent_inner_html: true,
+export const prettyHtml = {
+    end_with_newline : true,
+    indent_size      : 4,
+    indent_with_tabs : true,
+    indent_inner_html: false,
     preserve_newlines: true,
 };
 
-module.exports.browserSync = {
+export const browserSync = {
     server: {
-        baseDir: constants.PATH_DIST,
+        baseDir  : constants.PATH_DIST,
         directory: false,
-        index: 'index.html'
+        index    : 'index.html'
     },
-    host: 'local.muhit.me',
-    port: 8080,
-    https: false,
-    open: true,
-    notify: true
+    host  : env('SERVER_HOST', 'localhost'),
+    port  : env('SERVER_PORT', 9000),
+    https : env('SERVER_HTTPS', false),
+    open  : env('BROWSER_SYNC_OPEN', true),
+    notify: env('BROWSER_SYNC_NOTIFY', true),
 };
 
-module.exports.webpackManifest = {
-    fileName: 'manifest.json',
-    basePath: '',
-    publicPath: ''
+export const webpackManifest = {
+    fileName  : path.resolve(constants.PATH_DIST, 'manifest.json'),
+    basePath  : '',
+    publicPath: 'assets/',
+    map: (file) => {
+        const resourcePath = 'assets/';
+
+        if(/(jquery|bootstrap|core|standard|runtime)\.(min\.)?(js|css)(\.map)?$/i.test(file.name)) {
+            const ext = path.extname(file.name).slice(1);
+            const folder = ext === 'map' ? path.extname(file.name.slice(0, -4)).slice(1) : ext;
+            file.name = resourcePath + folder + '/' + file.name;
+        } else if(/\.html$/i.test(file.name)) {
+            file.name = file.name.replace('../', '');
+            file.path = file.path.replace(resourcePath + '../', '');
+        } else {
+            file.name = resourcePath + file.name;
+        }
+
+        return file;
+    },
 };
 
-module.exports.webpackNotifier = {
+export const webpackNotifier = {
     alwaysNotify: true
 };
 
-module.exports.webpackProvider = {
-    jQuery: 'jquery',
-    $: 'jquery'
+export const webpackProvider = {
+    $     : require.resolve('jquery'),
+    jQuery: require.resolve('jquery'),
 };
 
-module.exports.webpackCopy = {
+export const webpackCopy = {
     patterns: [
         {
             from: '**/*',
-            to: 'img/',
-            context: path.resolve(constants.PATH_ASSETS, 'img')
+            to: path.resolve(constants.PATH_BASE, env('WP_THEME_PATH'), 'assets'),
+            context: path.resolve(constants.PATH_DIST_ASSETS),
         }
     ]
 };
 
-module.exports.saveRemoteFile = require(path.resolve(constants.PATH_BASE, 'remote.config'));
+export const saveRemoteFile = require(path.resolve(constants.PATH_BASE, 'remote.config'));
 
-module.exports.fontello = {
+export const fontello = {
     config: require(path.resolve(constants.PATH_BASE, 'fontello.config.json')),
     output: {
         css: 'css/[name].css',
@@ -77,25 +93,28 @@ module.exports.fontello = {
     }
 };
 
-module.exports.miniCssExtract = {
-    filename: 'css/[name].css',
+export const miniCssExtract = {
+    filename: 'css/[name].min.css',
     chunkFilename: '[id].css'
 };
 
-module.exports.webpackClean = {
+export const webpackClean = {
+    dry: false,
+    verbose: true,
+    cleanStaleWebpackAssets: false,
     cleanOnceBeforeBuildPatterns: [
         path.join(constants.PATH_DIST, '**/*'),
-        path.join('!', constants.PATH_DIST, '**/.gitignore')
+        path.join('!', constants.PATH_DIST, '**/.gitignore'),
     ],
-    verbose: true,
-    dry: false
+    cleanAfterEveryBuildPatterns: [],
+    dangerouslyAllowCleanPatternsOutsideProject: true,
 };
 
-module.exports.workbox = {
+export const workbox = {
     generateSW: require(path.resolve(__dirname, 'workbox'))
 };
 
-module.exports.favicons = {
+export const favicons = {
     logo: path.resolve(constants.PATH_ASSETS, 'img/favicon.png'),
     prefix: 'img/favicons/',
     cache: true
