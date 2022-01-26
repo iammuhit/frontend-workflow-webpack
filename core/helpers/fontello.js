@@ -5,10 +5,10 @@ import { exec } from 'child_process';
 
 const constants = require(path.resolve(path.dirname(__dirname), 'config/constants'));
 const fontelloConfig = {
-    config: path.resolve(constants.PATH_BASE, 'fontello.config.json'),
+    config: path.resolve(constants.PATH_APP, 'vendors/fontello/config.json'),
     output: {
-        css: path.resolve(constants.PATH_ASSETS, 'fontello/css'),
-        font: path.resolve(constants.PATH_ASSETS, 'fontello/font')
+        css: path.resolve(constants.PATH_APP, 'vendors/fontello/css'),
+        font: path.resolve(constants.PATH_APP, 'vendors/fontello/font')
     }
 };
 

@@ -28,10 +28,10 @@ const PrettyHtmlWebpackPlugin = app.load.plugin('PrettyHtml');
 
 if(helper.general.env('FONTELLO_INSTALL', true)) {
     helper.fontello.install({
-        config: path.resolve(config.constants.PATH_BASE, 'fontello.config.json'),
+        config: path.resolve(config.constants.PATH_APP, 'vendors/fontello/config.json'),
         output: {
-            css: path.resolve(config.constants.PATH_ASSETS, 'fontello/css'),
-            font: path.resolve(config.constants.PATH_ASSETS, 'fontello/font')
+            css: path.resolve(config.constants.PATH_APP, 'vendors/fontello/css'),
+            font: path.resolve(config.constants.PATH_APP, 'vendors/fontello/font')
         }
     });
 }
@@ -54,7 +54,7 @@ module.exports = {
         new CleanWebpackPlugin(config.plugins.webpackClean),
         new WebpackManifestPlugin(config.plugins.webpackManifest),
         new WebpackNotifierPlugin(config.plugins.webpackNotifier),
-        new CopyWebpackPlugin(config.plugins.webpackCopy),
+        // new CopyWebpackPlugin(config.plugins.webpackCopy),
         new SaveRemoteFileWebpackPlugin(config.plugins.saveRemoteFile),
         new PrettyHtmlWebpackPlugin(config.plugins.prettyHtml),
         new MiniCssExtractPlugin(config.plugins.miniCssExtract),

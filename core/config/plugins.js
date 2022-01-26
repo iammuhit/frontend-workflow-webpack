@@ -86,7 +86,7 @@ export const webpackCopy = {
 export const saveRemoteFile = require(path.resolve(constants.PATH_BASE, 'remote.config'));
 
 export const fontello = {
-    config: require(path.resolve(constants.PATH_BASE, 'fontello.config.json')),
+    config: require(path.resolve(constants.PATH_APP, 'vendors/fontello/config.json')),
     output: {
         css: 'css/[name].css',
         font: 'fonts/[name].[ext]'
