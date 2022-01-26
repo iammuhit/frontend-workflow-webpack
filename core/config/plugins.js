@@ -1,14 +1,22 @@
 import path from 'path';
 import * as constants from './constants';
+import { env } from '../helpers/general';
 
 module.exports.html = (file) => {
     return {
-        filename: path.basename(file).replace(/^/, '../').replace(path.extname(file), '.html'),
-        template: path.resolve(file),
-        inject: 'body',
-        minify: false,
-        cache: true,
-        hash: false,
+        filename: () => {
+            const context = path.resolve(constants.PATH_TEMPLATES);
+            const relativePath = path.relative(context, file).replace('.twig', '');
+            const segments = relativePath.split(path.sep);
+            if (segments.slice(-1).pop() === 'index') segments.pop();
+            return segments.join('-').concat('.html').replace(/^/, '../');
+        },
+        template     : path.resolve(file),
+        inject       : env('PLUGIN_HTML_INJECT', 'body'),
+        scriptLoading: env('PLUGIN_HTML_SCRIPT', 'defer'),
+        favicon      : env('PLUGIN_HTML_FAVICON') ? path.join(constants.PATH_APP, env('PLUGIN_HTML_FAVICON')): '',
+        cache        : env('PLUGIN_HTML_CACHE', false),
+        hash         : env('PLUGIN_HTML_HASH', false),
         excludeChunks: ['components']
     };
 };

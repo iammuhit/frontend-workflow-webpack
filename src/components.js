@@ -1,5 +1,5 @@
 'use strict';
 
-// Load the required components
-const components = require.context('./components', true, /index.js$/);
-components.keys().forEach(components);
+// Load the required templates
+const templates = require.context('./templates', true, /index.js$/);
+templates.keys().forEach(templates);

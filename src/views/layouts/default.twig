@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-    {% include "partials::metadata.twig" %}
+    {% include "blocks::metadata.twig" %}
 </head>
 <body>
-    {% include "partials::header.twig" %}
+    {% include "blocks::header.twig" %}
 
     <main id="primary">
         {% block content %}
@@ -12,6 +12,6 @@
         {% endblock %}
     </main>
 
-    {% include "partials::footer.twig" %}
+    {% include "blocks::footer.twig" %}
 </body>
 </html>

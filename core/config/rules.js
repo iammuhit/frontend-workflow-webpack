@@ -1,7 +1,9 @@
 import path from 'path';
+import merge from 'webpack-merge';
 import fsExtra from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as constants from './constants';
+import { env, url } from '../helpers/general';
 
 export const babel = {
     test: /\.m?js$/,
@@ -95,41 +97,47 @@ export const fontelloFonts = {
     },
 };
 
-module.exports.twig = {
+export const twig = {
     test: /\.twig$/i,
     use: [
-        { loader: 'raw-loader' },
-        // {
-        //     loader: 'file-loader',
-        //     options: {
-        //         context: path.resolve(constants.PATH_COMPONENTS, 'pages'),
-        //         name: '[name].html',
-        //     },
-        // },
+        { loader: 'html-loader' },
         { loader: 'twig-html-loader',
             options: {
                 namespaces: {
-                    'layouts': path.join(constants.PATH_COMPONENTS, 'layouts'),
-                    'partials': path.join(constants.PATH_COMPONENTS, 'partials')
+                    'templates': path.resolve(constants.PATH_TEMPLATES),
+                    'layouts'  : path.resolve(constants.PATH_APP, 'views/layouts'),
+                    'blocks'   : path.resolve(constants.PATH_APP, 'views/blocks'),
+                },
+                functions: {
+                    site_url (uri, query, fragment) {
+                        return url.build(env('APP_URL'), uri, query, fragment);
+                    },
+                    api_url (endpoint, query) {
+                        return url.build(env('API_URL'), endpoint, query);
+                    },
                 },
                 data: (context) => {
-                    const filename = path.basename(context.resourcePath).replace('.twig', '.json');
-                    const data = path.join(constants.PATH_COMPONENTS, 'data', filename);
+                    const filename = path.dirname(path.relative(constants.PATH_TEMPLATES, context.resourcePath));
+                    const data_global = path.resolve(constants.PATH_LANGUAGES, constants.APP_LANG, 'global.json');
+                    const data_template = path.resolve(constants.PATH_LANGUAGES, constants.APP_LANG, filename + '.json');
 
-                    if(fsExtra.existsSync(data)) {
-                        context.addDependency(data); // Force webpack to watch file
-                        return context.fs.readJsonSync(data, { throws: false }) || {};
+                    let data = {};
+
+                    if(fsExtra.existsSync(data_global)) {
+                        context.addDependency(data_global); // Force webpack to watch file
+                        data = merge(data, context.fs.readJsonSync(data_global, { throws: false }) || {});
                     }
 
-                    return {};
-                }
-            }
+                    if(fsExtra.existsSync(data_template)) {
+                        context.addDependency(data_template); // Force webpack to watch file
+                        data = merge(data, context.fs.readJsonSync(data_template, { throws: false }) || {});
+                    }
+
+                    console.log(data);
+
+                    return data;
+                },
+            },
         },
-        // { loader: 'extract-loader', options: {
-        //     publicPath: 'assets/'
-        // } },
-        // { loader: 'html-loader', options: {
-        //     esModule: false
-        // }},
-    ]
+    ],
 };

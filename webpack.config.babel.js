@@ -20,7 +20,7 @@ import app from './core/bootstrap/app';
 const helper = app.load.helper();
 const config = app.load.config();
 
-const pages = helper.file.dirWalker(path.join(config.constants.PATH_COMPONENTS, 'pages'), '.twig');
+const pages = helper.file.dirWalker(config.constants.PATH_TEMPLATES, '.twig');
 const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin(config.plugins.html(file))
 );
