@@ -12,12 +12,10 @@ export const performance = {
 };
 
 export const entry = {
-    jquery: ['jquery', 'jquery-migrate'],
-    bootstrap: { import: 'bootstrap', dependOn: 'jquery' },
-    lodash: { import: 'lodash', dependOn: 'jquery' },
-    app: { import: path.resolve(constants.PATH_APP, 'app.js'), dependOn: ['jquery', 'bootstrap', 'lodash'] },
-    custom: { import: path.resolve(constants.PATH_ASSETS, 'js/custom.js'), dependOn: ['app'] },
-    components: path.resolve(constants.PATH_COMPONENTS, 'index.js')
+    jquery : ['jquery', 'jquery-migrate'],
+    vendors: { import: path.resolve(constants.PATH_APP, 'vendors'),     dependOn: ['jquery'] },
+    app    : { import: path.resolve(constants.PATH_APP, 'application'), dependOn: ['vendors'] },
+    blocks : { import: path.resolve(constants.PATH_APP, 'components'),  dependOn: ['app'] },
 };
 
 export const output = {
