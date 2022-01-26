@@ -81,7 +81,7 @@ export const fonts = {
     },
 };
 
-export const fontawesomeFonts = {
+export const xFontawesomeFonts = { // x: runs this rule after executing images rule
     test: /fontawesome-free[\\/]webfonts[\\/].*\.(woff|woff2|eot|ttf|oft|svg)(\?v=\w+)?$/i,
     type: 'asset/resource',
     generator: {
@@ -89,7 +89,7 @@ export const fontawesomeFonts = {
     },
 };
 
-export const fontelloFonts = {
+export const xFontelloFonts = {
     test: /fontello[\\/]font[\\/].*\.(woff|woff2|eot|ttf|oft|svg)(\?v=\w+)?$/i,
     type: 'asset/resource',
     generator: {
