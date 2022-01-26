@@ -81,11 +81,11 @@ export const fonts = {
     },
 };
 
-export const svgFonts = {
-    test: /(fonts|webfonts)[\\/].*\.(svg)(\?v=\w+)?$/i,
+export const fontawesomeFonts = {
+    test: /fontawesome-free[\\/]webfonts[\\/].*\.(woff|woff2|eot|ttf|oft|svg)(\?v=\w+)?$/i,
     type: 'asset/resource',
     generator: {
-        filename: 'fonts/[name][ext][query]',
+        filename: 'fonts/fontawesome/[name][ext][query]',
     },
 };
 
@@ -132,8 +132,6 @@ export const twig = {
                         context.addDependency(data_template); // Force webpack to watch file
                         data = merge(data, context.fs.readJsonSync(data_template, { throws: false }) || {});
                     }
-
-                    console.log(data);
 
                     return data;
                 },
