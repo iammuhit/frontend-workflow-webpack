@@ -12,11 +12,11 @@ export const html = (file) => {
             return segments.join('-').concat('.html').replace(/^/, '../');
         },
         template     : path.resolve(file),
-        inject       : env('PLUGIN_HTML_INJECT', 'body'),
-        scriptLoading: env('PLUGIN_HTML_SCRIPT', 'defer'),
-        favicon      : env('PLUGIN_HTML_FAVICON') ? path.join(constants.PATH_APP, env('PLUGIN_HTML_FAVICON')): '',
-        cache        : env('PLUGIN_HTML_CACHE', false),
-        hash         : env('PLUGIN_HTML_HASH', false),
+        inject       : env('WEBPACK_HTML_INJECT', 'body'),
+        scriptLoading: env('WEBPACK_HTML_SCRIPT', 'defer'),
+        favicon      : env('WEBPACK_HTML_FAVICON') ? path.join(constants.PATH_APP, env('WEBPACK_HTML_FAVICON')): '',
+        cache        : env('WEBPACK_HTML_CACHE', false),
+        hash         : env('WEBPACK_HTML_HASH', false),
         excludeChunks: ['components']
     };
 };
