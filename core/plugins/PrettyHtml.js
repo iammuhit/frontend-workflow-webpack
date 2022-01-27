@@ -1,6 +1,7 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import pretty from 'pretty';
 import merge from 'webpack-merge';
+import { env } from '../helpers/general';
 
 class PrettyHtmlWebpackPlugin {
     constructor(options) {
@@ -36,7 +37,7 @@ class PrettyHtmlWebpackPlugin {
     apply (compiler) {
         compiler.hooks.compilation.tap('PrettyHtmlWebpackPlugin', (compilation) => {
             HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('PrettyHtmlWebpackPlugin', (data, callback) => {
-                data.html = compiler.options.mode !== 'production' ? pretty(data.html, this.options) : data.html;
+                data.html = env('WEBPACK_HTML_PRETTY', false) ? pretty(data.html, this.options) : data.html;
                 callback(null, data);
             });
         });
