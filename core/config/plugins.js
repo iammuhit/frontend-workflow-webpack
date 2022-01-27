@@ -9,7 +9,7 @@ export const html = (file) => {
             const relativePath = path.relative(context, file).replace('.twig', '');
             const segments = relativePath.split(path.sep);
             if (segments.slice(-1).pop() === 'index') segments.pop();
-            return segments.join('-').concat('.html').replace(/^/, '../');
+            return segments.join('-').concat(env('WEBPACK_HTML_FILE_EXT', '.html')).replace(/^/, '../');
         },
         template     : path.resolve(file),
         inject       : env('WEBPACK_HTML_INJECT', 'body'),
