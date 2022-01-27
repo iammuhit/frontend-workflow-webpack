@@ -73,16 +73,6 @@ export const webpackProvider = {
     jQuery: require.resolve('jquery'),
 };
 
-export const webpackCopy = {
-    patterns: [
-        {
-            from: '**/*',
-            to: path.resolve(constants.PATH_BASE, env('WP_THEME_PATH'), 'assets'),
-            context: path.resolve(constants.PATH_DIST_ASSETS),
-        }
-    ]
-};
-
 export const saveRemoteFile = require(path.resolve(constants.PATH_BASE, 'remote.config'));
 
 export const fontello = {

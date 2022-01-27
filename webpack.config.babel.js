@@ -55,7 +55,6 @@ module.exports = {
         new CleanWebpackPlugin(config.plugins.webpackClean),
         new WebpackManifestPlugin(config.plugins.webpackManifest),
         new WebpackNotifierPlugin(config.plugins.webpackNotifier),
-        // new CopyWebpackPlugin(config.plugins.webpackCopy),
         new SaveRemoteFileWebpackPlugin(config.plugins.saveRemoteFile),
         new PrettyHtmlWebpackPlugin(config.plugins.prettyHtml),
         new MiniCssExtractPlugin(config.plugins.miniCssExtract),
