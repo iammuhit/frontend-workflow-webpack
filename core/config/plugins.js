@@ -101,13 +101,14 @@ export const miniCssExtract = {
 export const webpackClean = {
     dry: false,
     verbose: true,
-    cleanStaleWebpackAssets: false,
+    cleanStaleWebpackAssets: true,
+    protectWebpackAssets: true,
     cleanOnceBeforeBuildPatterns: [
-        path.join(constants.PATH_DIST, '**/*'),
-        path.join('!', constants.PATH_DIST, '**/.gitignore'),
+        path.resolve(constants.PATH_DIST, '*'),
+        ('!').concat(path.resolve(constants.PATH_DIST, '**/.gitignore')),
     ],
     cleanAfterEveryBuildPatterns: [],
-    dangerouslyAllowCleanPatternsOutsideProject: true,
+    dangerouslyAllowCleanPatternsOutsideProject: false,
 };
 
 export const workbox = {
