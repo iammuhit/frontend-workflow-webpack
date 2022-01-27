@@ -1,3 +1,14 @@
+@font-face {
+    font-family: "Ben Sen Handwriting";
+    src: url("@mayarun/assets/fonts/BenSenHandwriting.ttf") format("truetype");
+}
+
+#home {
+    color: red;
+    background: url('@mayarun/assets/img/home/banner.png');
+    box-shadow: none;
+}
+
 .tw-test {
     @apply px-4 py-2 bg-blue-600 text-red-800 rounded;
 }
