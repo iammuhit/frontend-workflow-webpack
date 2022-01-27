@@ -38,6 +38,7 @@ if(helper.general.env('FONTELLO_INSTALL', true)) {
 
 module.exports = {
     mode: config.app.APP_MODE,
+    performance: config.app.performance,
     entry: config.app.entry,
     output: config.app.output,
     target: config.app.target,
