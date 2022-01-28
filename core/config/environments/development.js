@@ -15,16 +15,16 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-import app from '../../bootstrap';
+import $ from '../../libraries/Loader';
 
-const helper = app.load.helper();
-const config = app.load.config();
+const helper = $.helper();
+const config = $.config();
 
 const pages = helper.file.dirWalker(config.constants.PATH_TEMPLATES, '.twig');
 const htmlWebpackPlugins = pages.map(
     file => new HtmlWebpackPlugin(config.plugins.html(file))
 );
-const PrettyHtmlWebpackPlugin = app.load.plugin('PrettyHtml');
+const PrettyHtmlWebpackPlugin = $.plugin('PrettyHtml');
 
 if(helper.general.env('FONTELLO_INSTALL', true)) {
     helper.fontello.install({
