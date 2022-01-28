@@ -1,6 +1,6 @@
 import path from 'path';
-import Loader from '../libraries/Loader';
-import Exceptions from '../libraries/Exceptions';
+import Loader from './libraries/Loader';
+import Exceptions from './libraries/Exceptions';
 
 export const load      = new Loader;
 export const constants = load.config('constants');

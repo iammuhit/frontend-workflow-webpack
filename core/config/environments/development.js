@@ -15,7 +15,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-import app from '../../bootstrap/app';
+import app from '../../bootstrap';
 
 const helper = app.load.helper();
 const config = app.load.config();
