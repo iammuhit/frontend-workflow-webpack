@@ -2,7 +2,6 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 const env  = dotenv.config().parsed;
-const dist = env.THEME_PATH ?? 'public';
 
 export const ENV_DEVELOPMENT = process.env.ENV_DEVELOPMENT = 'development';
 export const ENV_PRODUCTION  = process.env.ENV_PRODUCTION  = 'production';
@@ -21,5 +20,5 @@ export const PATH_APP          = path.resolve(PATH_BASE, 'src');
 export const PATH_TEMPLATES    = path.resolve(PATH_BASE, 'src/templates');
 export const PATH_LANGUAGES    = path.resolve(PATH_BASE, 'src/languages');
 export const PATH_ASSETS       = path.resolve(PATH_BASE, 'src/assets');
-export const PATH_DIST         = path.isAbsolute(dist) ? dist : path.resolve(PATH_BASE, dist);
+export const PATH_DIST         = path.resolve(PATH_BASE, 'public');
 export const PATH_DIST_ASSETS  = path.resolve(PATH_DIST, 'assets');
