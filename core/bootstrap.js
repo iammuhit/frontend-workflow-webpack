@@ -15,7 +15,7 @@ export const library = filename => load.library(filename);
 export const plugin  = filename => load.plugin(filename);
 
 export const run = () => {
-    let appConfig = config('app');
+    let appConfig = config('application');
     let appEnvironmentConfig = config('environments/' + constants.APP_MODE);
     let customEnvironmentConfig = {};
     let customEnvironmentFile = path.resolve(constants.PATH_APP, 'config/environments', constants.APP_MODE);
