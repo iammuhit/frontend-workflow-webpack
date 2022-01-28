@@ -28,7 +28,7 @@ plugins.push(config.plugins.dashboard);
 // plugins.push(config.plugins.webpack.hotModuleReplacement);
 
 if (env('THEME_PATH') !== undefined && APP_MODE === constants.ENV_PRODUCTION) {
-    plugins.push(config.plugins.copy.assets);
+    plugins.push(config.plugins.filemanager.copyAssets);
 }
 
 export default {

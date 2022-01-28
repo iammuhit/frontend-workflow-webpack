@@ -9,6 +9,7 @@ export { default as miniCssExtract } from './webpack-plugins/mini-css-extract';
 export { default as saveRemoteFile } from './webpack-plugins/save-remote-file';
 export { default as clean }          from './webpack-plugins/clean';
 export { default as copy }           from './webpack-plugins/copy';
+export { default as filemanager }    from './webpack-plugins/filemanager';
 export { default as favicons }       from './webpack-plugins/favicons';
 export { default as workbox  }       from './webpack-plugins/workbox';
 export { default as dashboard  }     from './webpack-plugins/dashboard';

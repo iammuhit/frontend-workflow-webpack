@@ -47,6 +47,7 @@
         "favicons": "^6.2.2",
         "favicons-webpack-plugin": "^5.0.2",
         "file-loader": "^6.2.0",
+        "filemanager-webpack-plugin": "^6.1.7",
         "fontello-webpack-plugin": "^0.4.8",
         "fs-extra": "^0.26.7",
         "fstream": "^1.0.12",
