@@ -3,7 +3,7 @@ import fsExtra from 'fs-extra';
 import requireDir from 'require-dir';
 import * as env from '../config/constants';
 
-export default class Loader {
+export class Loader {
 
     config(config) {
         return config === undefined ? this._autoload('config') : this._load('config', config);
@@ -43,3 +43,5 @@ export default class Loader {
     }
 
 }
+
+export default new Loader;

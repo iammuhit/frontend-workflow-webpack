@@ -1,9 +1,11 @@
 import fancyLog from 'fancy-log';
 
-export default class Exceptions {
+export class Exceptions {
 
     errorHandler(err) {
         fancyLog.error(err);
     }
 
 }
+
+export default new Exceptions;
