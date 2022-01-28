@@ -32,7 +32,7 @@ export class Loader {
         }
     }
 
-    _autoload(dirname, options = { recurse: true }) {
+    _autoload(dirname, options = { recurse: false }) {
         let directory = path.resolve(env.PATH_CORE, dirname);
 
         if(fsExtra.existsSync(directory)) {
