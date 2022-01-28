@@ -12,4 +12,6 @@ export const helper  = filename => load.helper(filename);
 export const library = filename => load.library(filename);
 export const plugin  = filename => load.plugin(filename);
 
-export default { load, constants, pkg, errors, config, helper, library, plugin };
+export const run = () => require(path.resolve(constants.PATH_CORE, 'config/environments', constants.APP_MODE));
+
+export default { load, constants, pkg, errors, config, helper, library, plugin, run };
