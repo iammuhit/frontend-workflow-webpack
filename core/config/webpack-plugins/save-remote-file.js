@@ -4,4 +4,4 @@ import $ from '../../libraries/Loader';
 
 const constants = $.config('constants');
 
-export default new SaveRemoteFileWebpackPlugin(require(path.resolve(constants.PATH_BASE, 'remote.config')));
+export default new SaveRemoteFileWebpackPlugin(require(path.resolve(constants.PATH_APP, 'config/save-remote-file')));
