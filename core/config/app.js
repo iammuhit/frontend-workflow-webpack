@@ -21,7 +21,7 @@ export const entry = {
 export const output = {
     path    : path.resolve(constants.PATH_DIST, 'assets'),
     filename: 'js/[name].min.js',
-    // clean   : { keep: /\.gitignore/ }
+    clean   : { keep: /\.gitignore/ }
 };
 
 export const target = 'web';
