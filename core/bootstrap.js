@@ -1,4 +1,6 @@
 import path from 'path';
+import fs from 'fs-extra';
+import merge from 'webpack-merge';
 import { Loader } from './libraries/Loader';
 import { Exceptions } from './libraries/Exceptions';
 
@@ -12,6 +14,17 @@ export const helper  = filename => load.helper(filename);
 export const library = filename => load.library(filename);
 export const plugin  = filename => load.plugin(filename);
 
-export const run = () => require(path.resolve(constants.PATH_CORE, 'config/environments', constants.APP_MODE));
+export const run = () => {
+    let appConfig = config('app');
+    let appEnvironmentConfig = config('environments/' + constants.APP_MODE);
+    let customEnvironmentConfig = {};
+    let customEnvironmentFile = path.resolve(constants.PATH_APP, 'config/environments', constants.APP_MODE);
+
+    if (fs.existsSync(customEnvironmentFile)) {
+        customEnvironmentConfig = require(customEnvironmentFile);
+    }
+
+    return merge(appConfig, appEnvironmentConfig, customEnvironmentConfig);
+};
 
 export default { load, constants, pkg, errors, config, helper, library, plugin, run };
