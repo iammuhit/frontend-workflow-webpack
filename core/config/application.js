@@ -13,7 +13,6 @@ config.plugins = require('./plugins');
 
 module.rules = Object.values(config.module.rules);
 
-plugins.concat(config.plugins.html);
 plugins.push(config.plugins.webpack.provider);
 plugins.push(config.plugins.browserSync);
 plugins.push(config.plugins.clean);
@@ -28,7 +27,7 @@ plugins.push(config.plugins.dashboard);
 // plugins.push(config.plugins.workbox.generateSW);
 // plugins.push(config.plugins.webpack.hotModuleReplacement);
 
-if (env('THEME_PATH') !== undefined) {
+if (env('THEME_PATH') !== undefined && APP_MODE === constants.ENV_PRODUCTION) {
     plugins.push(config.plugins.copy.assets);
 }
 
@@ -69,5 +68,5 @@ export default {
         },
     },
     module: module,
-    plugins: plugins,
+    plugins: plugins.concat(config.plugins.html),
 };
