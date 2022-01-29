@@ -3,10 +3,11 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import $ from '../../libraries/Loader';
 
 const constants = $.config('constants');
+const { env }   = $.helper('general');
 
 export default new CleanWebpackPlugin({
     dry: false,
-    verbose: true,
+    verbose: env('APP_MODE') !== constants.ENV_PRODUCTION,
     cleanStaleWebpackAssets: true,
     protectWebpackAssets: true,
     cleanOnceBeforeBuildPatterns: [
