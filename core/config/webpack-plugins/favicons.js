@@ -1,11 +1,12 @@
 import path from 'path';
+import fs from 'fs-extra';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import $ from '../../libraries/Loader';
 
 const constants = $.config('constants');
 const { env }   = $.helper('general');
 
-export default new FaviconsWebpackPlugin({
+const defaultOptions = {
     logo    : path.resolve(constants.PATH_ASSETS, 'img/favicon.png'),
     prefix  : 'img/favicons/',
     cache   : constants.APP_MODE === constants.ENV_PRODUCTION,
@@ -29,4 +30,9 @@ export default new FaviconsWebpackPlugin({
             yandex      : env('FAVICONS_YANDEX', false),
         },
     },
-});
+};
+const userOptionsFile = path.resolve(constants.PATH_APP, 'config/favicons.js');
+const userOptions = fs.existsSync(userOptionsFile) ? require(userOptionsFile) : {};
+const options = Object.keys(defaultOptions).reduce((a, key) => ({ ...a, [key]: userOptions[key] }), {});
+
+export default new FaviconsWebpackPlugin(options);
