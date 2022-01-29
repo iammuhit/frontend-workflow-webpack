@@ -37,7 +37,7 @@ class PrettyHtmlWebpackPlugin {
     apply (compiler) {
         compiler.hooks.compilation.tap('PrettyHtmlWebpackPlugin', (compilation) => {
             HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('PrettyHtmlWebpackPlugin', (data, callback) => {
-                data.html = env('WEBPACK_HTML_PRETTY', false) ? pretty(data.html, this.options) : data.html;
+                data.html = env('PRETTY_HTML', false) ? pretty(data.html, this.options) : data.html;
                 callback(null, data);
             });
         });
