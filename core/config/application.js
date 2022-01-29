@@ -12,7 +12,6 @@ config.module  = require('./module');
 config.plugins = require('./plugins');
 
 plugins.push(config.plugins.webpack.provider);
-plugins.push(config.plugins.browserSync);
 plugins.push(config.plugins.manifest);
 plugins.push(config.plugins.notifier);
 plugins.push(config.plugins.saveRemoteFile);
@@ -25,6 +24,7 @@ plugins.push(config.plugins.dashboard);
 // plugins.push(config.plugins.webpack.hotModuleReplacement);
 
 if (process.env.WEBPACK_SERVE !== 'true') {
+    plugins.push(config.plugins.browserSync);
     plugins.push(config.plugins.clean);
 }
 
