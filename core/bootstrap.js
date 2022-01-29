@@ -4,6 +4,8 @@ import merge from 'webpack-merge';
 import { Loader } from './libraries/Loader';
 import { Exceptions } from './libraries/Exceptions';
 
+process.removeAllListeners('warning'); // disable showing warnings on terminal
+
 export const load      = new Loader;
 export const constants = load.config('constants');
 export const pkg       = require(path.resolve(process.env.npm_package_json));
@@ -17,7 +19,7 @@ export const plugin  = filename => load.plugin(filename);
 export const run = () => {
     const fontello  = helper('fontello');
     const { env }   = helper('general');
-    
+
     let appConfig = config('application');
     let appEnvironmentConfig = config('environments/' + constants.APP_MODE);
     let customEnvironmentConfig = {};
