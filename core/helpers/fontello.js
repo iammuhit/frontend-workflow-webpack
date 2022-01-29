@@ -24,12 +24,14 @@ export const install = (fontelloOptions) => {
     }
 
     exec(action, (error, stdout, stderr) => {
-        console.info('\nFontello:\n');
+        if (process.env.APP_MODE !== process.env.ENV_PRODUCTION) {
+            console.info('\nFontello:\n');
 
-        if(error) { console.error(error); }
-        if(stderr) { console.error(stderr); }
-    
-        console.log(stdout);
+            if(error) { console.error(error); }
+            if(stderr) { console.error(stderr); }
+        
+            console.log(stdout);
+        }
     });
 };
 
