@@ -7,12 +7,12 @@ const APP_MODE = env('APP_MODE', constants.ENV_DEVELOPMENT);
 const config   = {};
 const plugins  = [];
 
+config.server  = require('./server');
 config.module  = require('./module');
 config.plugins = require('./plugins');
 
 plugins.push(config.plugins.webpack.provider);
 plugins.push(config.plugins.browserSync);
-plugins.push(config.plugins.clean);
 plugins.push(config.plugins.manifest);
 plugins.push(config.plugins.notifier);
 plugins.push(config.plugins.saveRemoteFile);
@@ -24,10 +24,14 @@ plugins.push(config.plugins.dashboard);
 // plugins.push(config.plugins.workbox.generateSW);
 // plugins.push(config.plugins.webpack.hotModuleReplacement);
 
+if (process.env.WEBPACK_SERVE !== 'true') {
+    plugins.push(config.plugins.clean);
+}
+
 if (env('THEME_PATH') !== undefined && APP_MODE === constants.ENV_PRODUCTION) {
     plugins.push(config.plugins.filemanager.copyAssets);
 }
-
+console.log(process.env);
 export default {
     mode: APP_MODE,
     performance: {
@@ -56,7 +60,7 @@ export default {
         ],
     },
     devtool: APP_MODE !== constants.ENV_PRODUCTION ? 'source-map' : false,
-    // devServer: config.server.development,
+    devServer: config.server,
     resolve: {
         alias: {
             '@mayarun'     : path.resolve(constants.PATH_APP),
