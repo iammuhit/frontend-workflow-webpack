@@ -13,12 +13,12 @@ export const APP_MODE    = process.env.APP_MODE    = process.env.NODE_ENV = NODE
 export const APP_VERSION = process.env.APP_VERSION = env.APP_VERSION ?? process.env.npm_package_version;
 export const APP_LANG    = process.env.APP_LANG    = env.APP_LANG ?? ENV_LANG_EN;
 
-export const PATH_BASE         = path.resolve(path.dirname(path.dirname(__dirname)));
-export const PATH_NODE_MODULES = path.resolve(PATH_BASE, 'node_modules');
-export const PATH_CORE         = path.resolve(PATH_BASE, 'core');
-export const PATH_APP          = path.resolve(PATH_BASE, 'src');
-export const PATH_TEMPLATES    = path.resolve(PATH_BASE, 'src/templates');
-export const PATH_LANGUAGES    = path.resolve(PATH_BASE, 'src/languages');
-export const PATH_ASSETS       = path.resolve(PATH_BASE, 'src/assets');
-export const PATH_DIST         = path.resolve(PATH_BASE, 'public');
-export const PATH_DIST_ASSETS  = path.resolve(PATH_DIST, 'assets');
+export const PATH_BASE         = process.env.PATH_BASE         = path.resolve(path.dirname(path.dirname(__dirname)));
+export const PATH_NODE_MODULES = process.env.PATH_NODE_MODULES = path.resolve(PATH_BASE, 'node_modules');
+export const PATH_CORE         = process.env.PATH_CORE         = path.resolve(PATH_BASE, 'core');
+export const PATH_APP          = process.env.PATH_APP          = path.resolve(PATH_BASE, 'src');
+export const PATH_TEMPLATES    = process.env.PATH_TEMPLATES    = path.resolve(PATH_BASE, 'src/templates');
+export const PATH_LANGUAGES    = process.env.PATH_LANGUAGES    = path.resolve(PATH_BASE, 'src/languages');
+export const PATH_ASSETS       = process.env.PATH_ASSETS       = path.resolve(PATH_BASE, 'src/assets');
+export const PATH_DIST         = process.env.PATH_DIST         = path.resolve(PATH_BASE, 'public');
+export const PATH_DIST_ASSETS  = process.env.PATH_DIST_ASSETS  = path.resolve(PATH_DIST, 'assets');
