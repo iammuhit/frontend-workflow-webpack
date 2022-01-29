@@ -25,7 +25,7 @@ export const run = () => {
     let customEnvironmentConfig = {};
     let customEnvironmentFile = path.resolve(constants.PATH_APP, 'config/environments', constants.APP_MODE);
 
-    if (fs.existsSync(customEnvironmentFile)) {
+    if (fs.existsSync(customEnvironmentFile.concat('.js'))) {
         customEnvironmentConfig = require(customEnvironmentFile);
     }
 

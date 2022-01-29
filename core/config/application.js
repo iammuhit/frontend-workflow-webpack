@@ -32,7 +32,7 @@ if (env('THEME_PATH') !== undefined && APP_MODE === constants.ENV_PRODUCTION) {
     plugins.push(config.plugins.filemanager.copyAssets);
 }
 
-export default {
+module.exports = {
     mode: APP_MODE,
     performance: {
         hints: false,
