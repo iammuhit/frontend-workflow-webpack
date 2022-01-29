@@ -10,6 +10,7 @@ export const rules = [
     config.rules.scss,
     config.rules.less,
     config.rules.images,
+    config.rules.videos,
     config.rules.fonts.fonts,
     config.rules.fonts.fontawesome,
     config.rules.fonts.fontello,
