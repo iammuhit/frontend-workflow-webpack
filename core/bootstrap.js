@@ -15,6 +15,9 @@ export const library = filename => load.library(filename);
 export const plugin  = filename => load.plugin(filename);
 
 export const run = () => {
+    const fontello  = helper('fontello');
+    const { env }   = helper('general');
+    
     let appConfig = config('application');
     let appEnvironmentConfig = config('environments/' + constants.APP_MODE);
     let customEnvironmentConfig = {};
@@ -22,6 +25,16 @@ export const run = () => {
 
     if (fs.existsSync(customEnvironmentFile)) {
         customEnvironmentConfig = require(customEnvironmentFile);
+    }
+
+    if(env('FONTELLO_INSTALL', true)) {
+        fontello.install({
+            config: path.resolve(constants.PATH_APP, 'vendors/fontello/config.json'),
+            output: {
+                css: path.resolve(constants.PATH_APP, 'vendors/fontello/css'),
+                font: path.resolve(constants.PATH_APP, 'vendors/fontello/font')
+            }
+        });
     }
 
     return merge(appConfig, appEnvironmentConfig, customEnvironmentConfig);

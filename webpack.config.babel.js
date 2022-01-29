@@ -1,18 +1,10 @@
-import path from 'path';
+/*!
+ * @package     github:iammuhit/frontend-workflow-webpack
+ * @author      Nurul Amin Muhit <me@muhit.me>
+ * @copyright   Copyright (c) 2022, Mayarun Labs
+ * @website     https://www.mayarun.se/
+ */
+
 import app from './core/bootstrap';
-
-const constants = app.load.config('constants');
-const fontello  = app.load.helper('fontello');
-const { env }   = app.load.helper('general');
-
-if(env('FONTELLO_INSTALL', true)) {
-    fontello.install({
-        config: path.resolve(constants.PATH_APP, 'vendors/fontello/config.json'),
-        output: {
-            css: path.resolve(constants.PATH_APP, 'vendors/fontello/css'),
-            font: path.resolve(constants.PATH_APP, 'vendors/fontello/font')
-        }
-    });
-}
 
 module.exports = app.run();
