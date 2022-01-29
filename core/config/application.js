@@ -31,7 +31,7 @@ if (process.env.WEBPACK_SERVE !== 'true') {
 if (env('THEME_PATH') !== undefined && APP_MODE === constants.ENV_PRODUCTION) {
     plugins.push(config.plugins.filemanager.copyAssets);
 }
-console.log(process.env);
+
 export default {
     mode: APP_MODE,
     performance: {
