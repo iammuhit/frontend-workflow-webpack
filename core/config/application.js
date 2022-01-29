@@ -5,13 +5,10 @@ import { env } from '../helpers/general';
 
 const APP_MODE = env('APP_MODE', constants.ENV_DEVELOPMENT);
 const config   = {};
-const module   = {};
 const plugins  = [];
 
 config.module  = require('./module');
 config.plugins = require('./plugins');
-
-module.rules = Object.values(config.module.rules);
 
 plugins.push(config.plugins.webpack.provider);
 plugins.push(config.plugins.browserSync);
@@ -67,6 +64,8 @@ export default {
             'jquery-ui'    : path.resolve(constants.PATH_NODE_MODULES, 'jquery-ui-dist/jquery-ui.js'),
         },
     },
-    module: module,
+    module: {
+        rules: config.module.rules,
+    },
     plugins: plugins.concat(config.plugins.html),
 };
