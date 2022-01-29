@@ -18,6 +18,7 @@ $ git clone git@github.com:iammuhit/frontend-workflow-webpack.git
 
 ```sh
 $ npm install
+$ npm run build
 $ npm run start
 ```
 
@@ -29,6 +30,7 @@ $ npm run start
 $ npm run start
 $ npm run watch
 $ npm run build
+$ npm run build --publish
 ```
 
 ## Fix Dependencies

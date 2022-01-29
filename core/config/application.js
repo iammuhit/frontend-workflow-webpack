@@ -28,8 +28,8 @@ if (process.env.WEBPACK_SERVE !== 'true') {
     plugins.push(config.plugins.clean);
 }
 
-if (env('THEME_PATH') !== undefined && APP_MODE === constants.ENV_PRODUCTION) {
-    plugins.push(config.plugins.filemanager.copyAssets);
+if (process.env.npm_config_publish === 'true') {
+    plugins.push(config.plugins.filemanager);
 }
 
 module.exports = {
