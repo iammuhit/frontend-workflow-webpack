@@ -14,7 +14,7 @@ export default {
             }
 
             if(/jquery-ui-dist/.test(resourcePath)) {
-                resourcePath = resourcePath.replace('jquery-ui-dist/images', 'img/jquery-ui');
+                resourcePath = resourcePath.replace('jquery-ui-dist/images', 'images/jquery-ui');
             }
 
             return path.relative(context, resourcePath).replace(/\\/g, '/');

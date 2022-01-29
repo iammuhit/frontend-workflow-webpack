@@ -7,8 +7,8 @@ const constants = $.config('constants');
 const { env }   = $.helper('general');
 
 const defaultOptions = {
-    logo    : path.resolve(constants.PATH_ASSETS, 'img/favicon.png'),
-    prefix  : 'img/favicons/',
+    logo    : path.resolve(constants.PATH_ASSETS, 'images/favicon.png'),
+    prefix  : 'images/favicons/',
     cache   : constants.APP_MODE === constants.ENV_PRODUCTION,
     mode    : env('FAVICONS_MODE', 'auto'),
     inject  : env('FAVICONS_INJECT', false),

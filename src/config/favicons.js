@@ -1,8 +1,8 @@
 import path from 'path';
 
 module.exports = {
-    logo    : path.resolve(process.env.PATH_ASSETS, 'img/favicon.png'),
-    prefix  : 'img/favicons/',
+    logo    : path.resolve(process.env.PATH_ASSETS, 'images/favicon.png'),
+    prefix  : 'images/favicons/',
     cache   : process.env.APP_MODE === process.env.ENV_PRODUCTION,
     mode    : 'webapp',
     inject  : true,

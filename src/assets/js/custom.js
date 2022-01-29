@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Icon from '@mayarun/assets/img/favicon.png';
+import Icon from '@mayarun/assets/images/favicon.png';
 
 console.log('I get called from custom.js!');
 
