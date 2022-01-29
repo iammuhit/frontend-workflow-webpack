@@ -2,7 +2,7 @@ import path from 'path';
 import * as constants from '../constants';
 
 export default {
-    test: /\.(png|svg|jpg|jpeg|gif)(\?v=\w+)?$/i,
+    test: /\.(png|svg|jpg|jpeg|gif|webp)(\?v=\w+)?$/i,
     type: 'asset/resource',
     generator: {
         filename: (pathData) => {
