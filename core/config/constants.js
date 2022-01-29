@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 
 const env  = dotenv.config().parsed;
 
+process.env.npm_config_publish && (env.APP_MODE = 'production');
+
 export const ENV_DEVELOPMENT = process.env.ENV_DEVELOPMENT = 'development';
 export const ENV_PRODUCTION  = process.env.ENV_PRODUCTION  = 'production';
 export const ENV_LANG_EN     = process.env.ENV_LANG_EN     = 'en';
