@@ -22,4 +22,12 @@ export const fontello = {
     },
 };
 
-export default { fonts, fontawesome, fontello };
+export const slick = {
+    test: /slick-carousel[\\/]slick[\\/]fonts[\\/].*\.(woff|woff2|eot|ttf|oft|svg)(\?v=\w+)?$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: 'fonts/slick/[name][ext][query]',
+    },
+};
+
+export default { fonts, fontawesome, fontello, slick };

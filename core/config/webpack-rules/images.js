@@ -10,11 +10,15 @@ export default {
             let resourcePath = pathData.module.resource;
 
             if(/node_modules/.test(resourcePath)) {
-                context = path.resolve(__dirname, 'node_modules');
+                context = path.resolve(constants.PATH_BASE, 'node_modules');
             }
 
             if(/jquery-ui-dist/.test(resourcePath)) {
-                resourcePath = resourcePath.replace('jquery-ui-dist/images', 'images/jquery-ui');
+                resourcePath = resourcePath.replace(/jquery-ui-dist[\\/]images/, 'images/jquery-ui');
+            }
+
+            if(/slick-carousel/.test(resourcePath)) {
+                resourcePath = resourcePath.replace(/slick-carousel[\\/]slick/, 'images/slick');
             }
 
             return path.relative(context, resourcePath).replace(/\\/g, '/');

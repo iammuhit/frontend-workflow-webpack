@@ -14,6 +14,7 @@ export const rules = [
     config.rules.fonts.fonts,
     config.rules.fonts.fontawesome,
     config.rules.fonts.fontello,
+    config.rules.fonts.slick,
     config.rules.twig,
 ];
 
