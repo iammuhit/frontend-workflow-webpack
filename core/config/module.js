@@ -11,10 +11,7 @@ export const rules = [
     config.rules.less,
     config.rules.images,
     config.rules.videos,
-    config.rules.fonts.fonts,
-    config.rules.fonts.fontawesome,
-    config.rules.fonts.fontello,
-    config.rules.fonts.slick,
+    config.rules.fonts,
     config.rules.twig,
 ];
 
