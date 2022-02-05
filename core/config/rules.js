@@ -4,5 +4,6 @@ export { default as scss }       from './webpack-rules/scss';
 export { default as less }       from './webpack-rules/less';
 export { default as images }     from './webpack-rules/images';
 export { default as videos }     from './webpack-rules/videos';
+export { default as docs }       from './webpack-rules/docs';
 export { default as fonts }      from './webpack-rules/fonts';
 export { default as twig }       from './webpack-rules/twig';

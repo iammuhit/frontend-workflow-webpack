@@ -11,6 +11,7 @@ export const rules = [
     config.rules.less,
     config.rules.images,
     config.rules.videos,
+    config.rules.docs,
     config.rules.fonts,
     config.rules.twig,
 ];
