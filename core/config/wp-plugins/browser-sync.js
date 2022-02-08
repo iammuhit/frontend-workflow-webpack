@@ -1,3 +1,4 @@
+import path from 'path';
 import BrowserSyncWebpackPlugin from 'browser-sync-webpack-plugin';
 import $ from '../../libraries/Loader';
 
@@ -14,6 +15,7 @@ const options = {
 
 if (env('SERVER_PROXY')) {
     options.proxy = env('SERVER_PROXY', '');
+    options.files = [path.resolve(process.env.PATH_BASE, process.env.THEME_PATH)];
 } else {
     options.server = {
         baseDir  : constants.PATH_DIST,
