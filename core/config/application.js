@@ -28,7 +28,11 @@ if (process.env.WEBPACK_SERVE !== 'true') {
     plugins.push(config.plugins.clean);
 }
 
-if (process.env.npm_config_publish === 'true') {
+if (process.env.npm_config_clean === 'true') {
+    plugins.push(config.plugins.clean);
+}
+
+if (process.env.npm_config_copy_assets === 'true') {
     plugins.push(config.plugins.filemanager);
 }
 
