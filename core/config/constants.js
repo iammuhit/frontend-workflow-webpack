@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 
 const env  = dotenv.config().parsed;
 
-process.env.npm_config_publish && (env.APP_MODE = 'production');
-process.env.npm_config_minify  && (env.PRETTY_HTML = false);
+process.env.npm_config_publish && (env.APP_MODE = process.env.APP_MODE = 'production');
+process.env.npm_config_minify  && (env.PRETTY_HTML = process.env.PRETTY_HTML = false);
 
 export const ENV_DEVELOPMENT = process.env.ENV_DEVELOPMENT = 'development';
 export const ENV_PRODUCTION  = process.env.ENV_PRODUCTION  = 'production';
